@@ -1,0 +1,131 @@
+  /* Aplicar Poppins em toda a aplicação por padrão */
+  body {
+    background-color: #362329;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .story-header {
+    background-color: #1a121e;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .novel-title-input {
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 8px;
+    padding: 6px 12px;
+    outline: none;
+    box-sizing: border-box;
+    width: 280px; /* Tamanho fixo para o título da novel */
+    max-width: 100%;
+  }
+
+  .novel-title-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+  }
+
+  .scene-card {
+    background-color: #1e1e24;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #2d2d38;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .scene-header {
+    background-color: #e42e5c;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .scene-title-input {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 4px 10px;
+    outline: none;
+    box-sizing: border-box;
+    width: 200px; /* Tamanho fixo para o título da cena */
+    max-width: 100%;
+  }
+
+  .scene-title-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .toolbar-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+
+  .toolbar-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Área de escrita com fonte monoespaçada Roboto Mono */
+  .scene-editor {
+    background-color: #1a1a20;
+    color: #e0e0e0;
+    border: none;
+    width: 100%;
+    min-height: 150px;
+    padding: 15px;
+    resize: vertical;
+    outline: none;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .btn-add-scene {
+    background-color: #1e1e24;
+    color: white;
+    border: 1px solid #e42e5c;
+    border-radius: 30px;
+    padding: 8px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+
+  .btn-add-scene:hover {
+    background-color: #e42e5c;
+    color: white;
+  }
+
+  /* Engrossa os ícones do Bootstrap */
+  .bi-plus-lg {
+    -webkit-text-stroke: 1px currentColor;
+  }
+
+  .bi-arrow-counterclockwise {
+    -webkit-text-stroke: 0.2px currentColor;
+  }
+
+  .bi-arrow-clockwise {
+    -webkit-text-stroke: 0.2px currentColor;
+  }
