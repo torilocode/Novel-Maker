@@ -2,31 +2,24 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Configura o Express para servir arquivos estáticos (HTML, CSS, JS) da pasta public
+// Servir arquivos estáticos da pasta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware para parsing de dados de formulário e JSON
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Rota Principal -> Envia o arquivo index.html
+// Rotas das páginas principais
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Rota do Editor -> Envia o arquivo editor.html
 app.get('/editor', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'editor.html'));
+  res.sendFile(path.join(__dirname, 'public', 'editor.html'));
 });
 
-// Middleware para tratar Erro 404 (Rota não encontrada)
-app.use((req, res) => {
-    res.status(404).send('<h1>Erro 404: Página não encontrada</h1><a href="/">Voltar ao Início</a>');
+app.get('/player', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'player.html'));
 });
 
-// Inicialização do Servidor
 app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor executando em http://localhost:${PORT}`);
 });
