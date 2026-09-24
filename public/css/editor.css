@@ -1,131 +1,183 @@
-  /* Aplicar Poppins em toda a aplicação por padrão */
-  body {
-    background-color: #362329;
-    min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
-  }
+/* Aplicar Poppins em toda a aplicação por padrão */
+body {
+  background-color: #362329;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
 
-  .story-header {
-    background-color: #1a121e;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
+/* Header Superior (Título da Novel) */
+.story-header {
+  background-color: #1a121e;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
-  .novel-title-input {
-    background: none;
-    border: none;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    text-align: center;
-    border-radius: 8px;
-    padding: 6px 12px;
-    outline: none;
-    box-sizing: border-box;
-    width: 280px; /* Tamanho fixo para o título da novel */
-    max-width: 100%;
-  }
+.novel-title-input {
+  background: none;
+  border: none;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 8px;
+  padding: 6px 12px;
+  outline: none;
+  box-sizing: border-box;
+  width: 280px;
+  max-width: 100%;
+}
 
-  .novel-title-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-  }
+.novel-title-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}
 
-  .scene-card {
-    background-color: #1e1e24;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid #2d2d38;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-  }
+/* Card de Cena */
+.scene-card {
+  background-color: #1e1e24;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #2d2d38;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
 
-  .scene-header {
-    background-color: #e42e5c;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.scene-header {
+  background-color: #e42e5c;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .scene-title-input {
-    background: rgba(255, 255, 255, 0.15);
-    border: none;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 4px 10px;
-    outline: none;
-    box-sizing: border-box;
-    width: 200px; /* Tamanho fixo para o título da cena */
-    max-width: 100%;
-  }
+.scene-title-input {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 4px 10px;
+  outline: none;
+  box-sizing: border-box;
+  width: 200px;
+  max-width: 100%;
+}
 
-  .scene-title-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
+.scene-title-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
 
-  .toolbar-btn {
-    background: transparent;
-    border: none;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-weight: bold;
-    font-size: 1.1rem;
-    padding: 2px 8px;
-    border-radius: 4px;
-    transition: background 0.2s;
-  }
+/* Botões Padrão da Toolbar (Bold, Italic, Undo, Redo) */
+.toolbar-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
 
-  .toolbar-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
+.toolbar-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
 
-  /* Área de escrita com fonte monoespaçada Roboto Mono */
-  .scene-editor {
-    background-color: #1a1a20;
-    color: #e0e0e0;
-    border: none;
-    width: 100%;
-    min-height: 150px;
-    padding: 15px;
-    resize: vertical;
-    outline: none;
-    font-family: 'Roboto Mono', monospace;
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
+/* Botão de deletar em formato de círculo destacado */
+.toolbar-btn-danger {
+  background-color: rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  border-radius: 50%;
+  margin-left: 4px;
+}
 
-  .btn-add-scene {
-    background-color: #1e1e24;
-    color: white;
-    border: 1px solid #e42e5c;
-    border-radius: 30px;
-    padding: 8px 16px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.2s;
-  }
+.toolbar-btn-danger:hover {
+  background-color: #1a121e;
+  color: #ff6b8b;
+  transform: scale(1.08);
+}
 
-  .btn-add-scene:hover {
-    background-color: #e42e5c;
-    color: white;
-  }
+/* Editor Rich Text (Estilo Google Docs) */
+.scene-editor {
+  background-color: #1a1a20;
+  color: #e0e0e0;
+  border: none;
+  width: 100%;
+  min-height: 160px;
+  padding: 15px;
+  outline: none;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border-radius: 0 0 16px 16px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  position: relative;
+}
 
-  /* Engrossa os ícones do Bootstrap */
-  .bi-plus-lg {
-    -webkit-text-stroke: 1px currentColor;
-  }
+/* Garante que textos colados de fora mantenham as cores do tema */
+.scene-editor * {
+  color: inherit;
+}
 
-  .bi-arrow-counterclockwise {
-    -webkit-text-stroke: 0.2px currentColor;
-  }
+/* Estilização dos elementos de formatação visual no editor */
+.scene-editor b, 
+.scene-editor strong {
+  color: #ffffff !important;
+  font-weight: 700;
+}
 
-  .bi-arrow-clockwise {
-    -webkit-text-stroke: 0.2px currentColor;
-  }
+.scene-editor i, 
+.scene-editor em {
+  color: #ffffff !important;
+  font-style: italic;
+}
+
+/* Placeholder dinâmico flutuante para contenteditable */
+.scene-editor[contenteditable="true"]:empty::before,
+.scene-editor[contenteditable="true"][data-empty="true"]::before {
+  content: attr(placeholder);
+  color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  position: absolute;
+  left: 15px;
+  top: 15px;
+}
+
+/* Botão de Adicionar Cena */
+.btn-add-scene {
+  background-color: #1e1e24;
+  color: white;
+  border: 1px solid #e42e5c;
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+}
+
+.btn-add-scene:hover {
+  background-color: #e42e5c;
+  color: white;
+}
+
+/* Engrossa os ícones do Bootstrap */
+.bi-plus-lg {
+  -webkit-text-stroke: 1px currentColor;
+}
+
+.bi-arrow-counterclockwise,
+.bi-arrow-clockwise {
+  -webkit-text-stroke: 0.2px currentColor;
+}

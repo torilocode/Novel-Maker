@@ -30,7 +30,7 @@
             autocomplete="off" autocorrect="off">
     </header>
 
-    <main class="container col-md-8 col-lg-5 pb-5">
+    <main id="scenes-container" class="container col-md-8 col-lg-5 pb-5">
 
         <!-- CENA 1 -->
         <div class="scene-card mb-4">
@@ -38,19 +38,28 @@
                 <input type="text" class="scene-title-input" placeholder="New Scene" maxlength="30" spellcheck="false"
                     autocomplete="off" autocorrect="off">
 
-                <div class="toolbar d-flex  ">
-                    <button class="toolbar-btn" title="Bold"><i class="bi bi-type-bold fs-4"></i></button>
-                    <button class="toolbar-btn" title="Italic"><i class="bi bi-type-italic fs-4"></i></button>
-                    <button class="toolbar-btn" title="Undo"><i class="bi bi-arrow-counterclockwise"></i></button>
-                    <button class="toolbar-btn" title="Redo"><i class="bi bi-arrow-clockwise"></i></button>
+                <div class="toolbar d-flex align-items-center gap-1">
+                    <button class="toolbar-btn" data-action="bold" title="Bold (Ctrl+B)" type="button"><i
+                            class="bi bi-type-bold fs-4"></i></button>
+                    <button class="toolbar-btn" data-action="italic" title="Italic (Ctrl+I)" type="button"><i
+                            class="bi bi-type-italic fs-4"></i></button>
+                    <button class="toolbar-btn" data-action="undo" title="Undo (Ctrl+Z)" type="button"><i
+                            class="bi bi-arrow-counterclockwise"></i></button>
+                    <button class="toolbar-btn" data-action="redo" title="Redo (Ctrl+Y)" type="button"><i
+                            class="bi bi-arrow-clockwise"></i></button>
+                    <button class="toolbar-btn toolbar-btn-danger btn-delete-scene" title="Delete Scene" type="button">
+                        <i class="bi bi-trash3"></i>
+                    </button>
                 </div>
             </div>
-            <textarea class="scene-editor" placeholder="Escreva o roteiro aqui..."></textarea>
+
+            <!-- Editor Rich Text Estilo Google Docs -->
+            <div class="scene-editor" contenteditable="true" placeholder="Escreva o roteiro aqui..."></div>
         </div>
 
         <!-- Botão Inferior de Adicionar Cena -->
-        <div class="text-center mt-4">
-            <button class="btn btn-add-scene shadow">
+        <div id="btn-container" class="text-center mt-4">
+            <button id="btn-add-scene" class="btn btn-add-scene shadow" type="button">
                 <span class="plus-icon"><i class="bi bi-plus-lg"></i></span>
                 Add Scene
             </button>
