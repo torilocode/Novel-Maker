@@ -1,12 +1,12 @@
 /* Aplicar Poppins em toda a aplicação por padrão */
 body {
-  background-color: #362329;
+  background-color: #0a000f;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
 }
 
 /* Header Superior (Título da Novel) */
-.story-header {
+.novel-header {
   background-color: #1a121e;
   padding: 15px;
   text-align: center;
@@ -18,7 +18,7 @@ body {
   border: none;
   color: white;
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 700;
   text-align: center;
   border-radius: 8px;
@@ -40,7 +40,7 @@ body {
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid #2d2d38;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .scene-header {
@@ -90,11 +90,11 @@ body {
   color: #ffffff;
 }
 
-/* Botão de deletar em formato de círculo destacado */
+/* Botão de apagar destacado */
 .toolbar-btn-danger {
   background-color: rgba(0, 0, 0, 0.15);
   color: #ffffff;
-  border-radius: 50%;
+  border-radius: 8px;
   margin-left: 4px;
 }
 
@@ -104,52 +104,33 @@ body {
   transform: scale(1.08);
 }
 
-/* Editor Rich Text (Estilo Google Docs) */
+/* Área de texto editável */
 .scene-editor {
-  background-color: #1a1a20;
-  color: #e0e0e0;
-  border: none;
   width: 100%;
-  min-height: 160px;
-  padding: 15px;
-  outline: none;
+  min-height: 120px;
+  background-color: #18181c;
+  color: #ffffff;
+  border: none;
+  border-radius: 0 0 16px 16px;
+  padding: 16px;
   font-family: 'Roboto Mono', monospace;
   font-size: 0.95rem;
   line-height: 1.6;
-  border-radius: 0 0 16px 16px;
-  overflow-y: auto;
+  outline: none;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  word-break: break-word;
   position: relative;
 }
 
-/* Garante que textos colados de fora mantenham as cores do tema */
-.scene-editor * {
-  color: inherit;
-}
-
-/* Estilização dos elementos de formatação visual no editor */
-.scene-editor b, 
-.scene-editor strong {
-  color: #ffffff !important;
-  font-weight: 700;
-}
-
-.scene-editor i, 
-.scene-editor em {
-  color: #ffffff !important;
-  font-style: italic;
-}
-
-/* Placeholder dinâmico flutuante para contenteditable */
-.scene-editor[contenteditable="true"]:empty::before,
-.scene-editor[contenteditable="true"][data-empty="true"]::before {
-  content: attr(placeholder);
+/* Placeholder para DIV contenteditable */
+.scene-editor:empty::before,
+.scene-editor[data-empty="true"]::before {
+  content: attr(data-placeholder);
   color: rgba(255, 255, 255, 0.35);
   pointer-events: none;
   position: absolute;
-  left: 15px;
-  top: 15px;
+  left: 16px;
+  top: 16px;
 }
 
 /* Botão de Adicionar Cena */
@@ -172,7 +153,7 @@ body {
   color: white;
 }
 
-/* Engrossa os ícones do Bootstrap */
+/* Ajuste nos ícones do Bootstrap */
 .bi-plus-lg {
   -webkit-text-stroke: 1px currentColor;
 }
@@ -180,4 +161,171 @@ body {
 .bi-arrow-counterclockwise,
 .bi-arrow-clockwise {
   -webkit-text-stroke: 0.2px currentColor;
+}
+
+/* Card da Lateral de Personagens */
+.characters-card {
+  background-color: #1e1e24;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #2d2d38;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.characters-header {
+  background-color: #e42e5c;
+  padding: 12px 20px;
+  text-align: center;
+}
+
+.characters-header h2 {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.char-name-input {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  outline: none;
+  width: 110px;
+}
+
+.char-name-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.char-color-badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  display: inline-block;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.char-color-badge:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.char-color-picker {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+/* Botão Circular de Adicionar Personagem */
+.btn-add-char {
+  background: transparent;
+  border: 2px solid #e42e5c;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-add-char:hover {
+  background-color: #e42e5c;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+}
+
+/* Item do Personagem e Botão de Eliminar */
+.character-item {
+  position: relative;
+}
+
+.btn-delete-char {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  padding: 0 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.character-item:hover .btn-delete-char {
+  opacity: 1;
+}
+
+/* Avatar Clicável no Card do Personagem */
+.char-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    cursor: pointer;
+    object-fit: cover;
+    background-color: #2d2d38;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.char-avatar:hover {
+    transform: scale(1.1);
+    border-color: #e42e5c;
+}
+
+/* Modal Estilo Escuro */
+.custom-avatar-modal {
+    background-color: #1e1e22;
+    color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #2d2d38;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Opções de Avatar (25x25) */
+.avatar-option {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    object-fit: cover;
+}
+
+.avatar-option:hover {
+    transform: scale(1.2);
+    border-color: #e42e5c;
+}
+
+/* Botão Roxo (Selecionar Imagem) */
+.btn-select-avatar {
+    background-color: #e42e5c;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 6px;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+.btn-select-avatar:hover {
+    background-color: #e42e5c;
+    color: #ffffff;
 }
