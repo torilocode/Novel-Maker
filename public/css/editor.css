@@ -34,8 +34,8 @@ body {
   text-align: center;
 }
 
-/* Card de Cena */
-.scene-card {
+/* Card de Diálogo (Antiga Cena) */
+.dialog-card {
   background-color: #1e1e24;
   border-radius: 16px;
   overflow: hidden;
@@ -43,7 +43,7 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.scene-header {
+.dialog-header {
   background-color: #e42e5c;
   padding: 10px 20px;
   display: flex;
@@ -51,7 +51,7 @@ body {
   align-items: center;
 }
 
-.scene-title-input {
+.dialog-title-input {
   background: rgba(255, 255, 255, 0.15);
   border: none;
   color: white;
@@ -65,11 +65,11 @@ body {
   max-width: 100%;
 }
 
-.scene-title-input::placeholder {
+.dialog-title-input::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Botões Padrão da Toolbar (Bold, Italic, Undo, Redo) */
+/* Toolbar Buttons */
 .toolbar-btn {
   background: transparent;
   border: none;
@@ -90,7 +90,6 @@ body {
   color: #ffffff;
 }
 
-/* Botão de apagar destacado */
 .toolbar-btn-danger {
   background-color: rgba(0, 0, 0, 0.15);
   color: #ffffff;
@@ -104,8 +103,8 @@ body {
   transform: scale(1.08);
 }
 
-/* Área de texto editável */
-.scene-editor {
+/* Editor de Diálogos */
+.dialog-editor {
   width: 100%;
   min-height: 120px;
   background-color: #18181c;
@@ -122,9 +121,8 @@ body {
   position: relative;
 }
 
-/* Placeholder para DIV contenteditable */
-.scene-editor:empty::before,
-.scene-editor[data-empty="true"]::before {
+.dialog-editor:empty::before,
+.dialog-editor[data-empty="true"]::before {
   content: attr(data-placeholder);
   color: rgba(255, 255, 255, 0.35);
   pointer-events: none;
@@ -133,8 +131,8 @@ body {
   top: 16px;
 }
 
-/* Botão de Adicionar Cena */
-.btn-add-scene {
+/* Botão de Adicionar Diálogo */
+.btn-add-dialog {
   background-color: #1e1e24;
   color: white;
   border: 1px solid #e42e5c;
@@ -148,23 +146,14 @@ body {
   transition: all 0.2s;
 }
 
-.btn-add-scene:hover {
+.btn-add-dialog:hover {
   background-color: #e42e5c;
   color: white;
 }
 
-/* Ajuste nos ícones do Bootstrap */
-.bi-plus-lg {
-  -webkit-text-stroke: 1px currentColor;
-}
-
-.bi-arrow-counterclockwise,
-.bi-arrow-clockwise {
-  -webkit-text-stroke: 0.2px currentColor;
-}
-
-/* Card da Lateral de Personagens */
-.characters-card {
+/* Lateral de Personagens e StoryTab */
+.characters-card,
+.story-card {
   background-color: #1e1e24;
   border-radius: 16px;
   overflow: hidden;
@@ -172,17 +161,38 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.characters-header {
+.characters-header,
+.story-header {
   background-color: #e42e5c;
   padding: 12px 20px;
   text-align: center;
 }
 
-.characters-header h2 {
+.characters-header h2,
+.story-header h2 {
   color: white;
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0;
+}
+
+/* Personagens */
+.char-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  cursor: pointer;
+  object-fit: cover;
+  background-color: #2d2d38;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.char-avatar:hover {
+  transform: scale(1.1);
+  border-color: #e42e5c;
 }
 
 .char-name-input {
@@ -229,8 +239,9 @@ body {
   padding: 0;
 }
 
-/* Botão Circular de Adicionar Personagem */
-.btn-add-char {
+.btn-add-char,
+.btn-add-scene,
+.btn-add-chapter {
   background: transparent;
   border: 2px solid #e42e5c;
   color: #ffffff;
@@ -245,13 +256,14 @@ body {
   transition: all 0.2s ease;
 }
 
-.btn-add-char:hover {
+.btn-add-char:hover,
+.btn-add-scene:hover,
+.btn-add-chapter:hover {
   background-color: #e42e5c;
   transform: scale(1.1);
-  box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+  box-shadow: 0 0 10px rgba(228, 46, 92, 0.5);
 }
 
-/* Item do Personagem e Botão de Eliminar */
 .character-item {
   position: relative;
 }
@@ -270,62 +282,107 @@ body {
   opacity: 1;
 }
 
-/* Avatar Clicável no Card do Personagem */
-.char-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: inline-block;
-    flex-shrink: 0;
-    cursor: pointer;
-    object-fit: cover;
-    background-color: #2d2d38;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.15s ease, border-color 0.15s ease;
-}
-
-.char-avatar:hover {
-    transform: scale(1.1);
-    border-color: #e42e5c;
-}
-
-/* Modal Estilo Escuro */
+/* Modal e Opções de Avatar */
 .custom-avatar-modal {
-    background-color: #1e1e22;
-    color: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #2d2d38;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  background-color: #1e1e22;
+  color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #2d2d38;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* Opções de Avatar (25x25) */
 .avatar-option {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.2s ease;
-    object-fit: cover;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  object-fit: cover;
 }
 
 .avatar-option:hover {
-    transform: scale(1.2);
-    border-color: #e42e5c;
+  transform: scale(1.2);
+  border-color: #e42e5c;
 }
 
-/* Botão Roxo (Selecionar Imagem) */
 .btn-select-avatar {
-    background-color: #e42e5c;
-    color: #ffffff;
-    font-weight: 600;
-    padding: 10px 24px;
-    border-radius: 6px;
-    border: none;
-    transition: background-color 0.2s ease;
+  background-color: #e42e5c;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  transition: background-color 0.2s ease;
 }
 
 .btn-select-avatar:hover {
-    background-color: #e42e5c;
-    color: #ffffff;
+  background-color: #e42e5c;
+  color: #ffffff;
+}
+
+/* ESTILOS DA STORY TAB (DIREITA) */
+.chapter-card {
+  background-color: #141418;
+  border: 1px solid #2d2d38;
+}
+
+.chapter-title-input {
+  background: transparent;
+  border: none;
+  color: #e42e5c;
+  font-weight: 700;
+  font-size: 1rem;
+  outline: none;
+  width: 80%;
+}
+
+.btn-delete-chapter {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+}
+
+.scene-item {
+  background-color: #24242d;
+  border: 1px solid #323240;
+  cursor: grab;
+  transition: background-color 0.15s ease;
+}
+
+.scene-item:active {
+  cursor: grabbing;
+}
+
+.scene-item.dragging {
+  opacity: 0.4;
+  border: 1px dashed #e42e5c;
+}
+
+.drag-handle {
+  color: #666;
+  cursor: grab;
+}
+
+.scene-title-input-story {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 0.85rem;
+  outline: none;
+  width: 100%;
+}
+
+.btn-delete-story-scene {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  font-size: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.scene-item:hover .btn-delete-story-scene {
+  opacity: 1;
 }
