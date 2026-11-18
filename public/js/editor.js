@@ -1,27 +1,74 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const icons = {
+        trash: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`,
+        plus: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`,
+        undo: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>`,
+        redo: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"></path><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path></svg>`,
+        grip: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="5" r="1"></circle><circle cx="9" cy="12" r="1"></circle><circle cx="9" cy="19" r="1"></circle><circle cx="15" cy="5" r="1"></circle><circle cx="15" cy="12" r="1"></circle><circle cx="15" cy="19" r="1"></circle></svg>`
+    };
+
+    // --- CONTROLE DO MODAL ---
+    const avatarModal = document.getElementById("avatarModal");
+    const btnCloseModal = document.getElementById("btn-close-avatar-modal");
+    let currentTargetAvatarImg = null;
+
+    function openAvatarModal(imgElement) {
+        currentTargetAvatarImg = imgElement;
+        if (avatarModal) {
+            avatarModal.classList.add("active");
+        }
+    }
+
+    function closeAvatarModal() {
+        if (avatarModal) {
+            avatarModal.classList.remove("active");
+        }
+    }
+
+    if (btnCloseModal) {
+        btnCloseModal.addEventListener("click", closeAvatarModal);
+    }
+
+    if (avatarModal) {
+        avatarModal.addEventListener("click", (e) => {
+            if (e.target === avatarModal) {
+                closeAvatarModal();
+            }
+        });
+
+        const avatarOptions = avatarModal.querySelectorAll(".avatar-option");
+        avatarOptions.forEach(option => {
+            option.addEventListener("click", (e) => {
+                if (currentTargetAvatarImg) {
+                    const selectedSrc = e.target.getAttribute("data-src");
+                    currentTargetAvatarImg.src = selectedSrc;
+                }
+                closeAvatarModal();
+            });
+        });
+    }
+
     // --- LÓGICA DE PERSONAGENS ---
     const charContainer = document.getElementById("characters-container");
     const btnAddChar = document.getElementById("btn-add-character");
 
     const defaultColors = ["#ff2a5f", "#e000d0", "#6133ff", "#2b7fff", "#38d629", "#e09f00"];
     let colorIndex = 0;
-    
-    let currentTargetAvatarImg = null;
 
     function createCharacterItem(defaultName = "") {
         const item = document.createElement("div");
-        item.classList.add("character-item", "d-flex", "align-items-center", "justify-content-between", "mb-3");
+        item.classList.add("character-item");
 
         const initialColor = defaultColors[colorIndex % defaultColors.length];
         colorIndex++;
 
         item.innerHTML = `
-            <div class="d-flex align-items-center gap-2">
+            <div class="char-left">
                 <img src="/assets/l1.png" class="char-avatar" title="Mudar foto" alt="Avatar">
                 <input type="text" class="char-name-input" value="${defaultName}" placeholder="Name" maxlength="20" spellcheck="false" autocomplete="off">
             </div>
-            <div class="d-flex align-items-center gap-2">
-                <button class="btn-delete-char" title="Delete Character"><i class="bi bi-trash"></i></button>
+            <div class="char-right">
+                <button class="btn-delete-char" title="Delete Character">${icons.trash}</button>
                 <label class="char-color-badge" style="background-color: ${initialColor};" title="Change Color">
                     <input type="color" class="char-color-picker" value="${initialColor}">
                 </label>
@@ -35,12 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnDelete = item.querySelector(".btn-delete-char");
 
         avatarImg.addEventListener("click", () => {
-            currentTargetAvatarImg = avatarImg;
-            const modalElement = document.getElementById("avatarModal");
-            if (modalElement) {
-                const modal = new bootstrap.Modal(modalElement);
-                modal.show();
-            }
+            openAvatarModal(avatarImg);
         });
 
         colorPicker.addEventListener("input", (e) => {
@@ -77,27 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Modal de Avatar
-    const avatarModalElement = document.getElementById("avatarModal");
-    if (avatarModalElement) {
-        const avatarOptions = avatarModalElement.querySelectorAll(".avatar-option");
-
-        avatarOptions.forEach(option => {
-            option.addEventListener("click", (e) => {
-                if (currentTargetAvatarImg) {
-                    const selectedSrc = e.target.getAttribute("data-src");
-                    currentTargetAvatarImg.src = selectedSrc;
-                }
-
-                const modalInstance = bootstrap.Modal.getInstance(avatarModalElement);
-                if (modalInstance) {
-                    modalInstance.hide();
-                }
-            });
-        });
-    }
-
-    // --- LÓGICA DE DIÁLOGOS (Antigas Cenas) ---
+    // --- LÓGICA DE DIÁLOGOS ---
     const dialogsContainer = document.getElementById("dialogs-container");
     const btnAddDialog = document.getElementById("btn-add-dialog");
 
@@ -112,18 +134,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function createDialogCard() {
         const card = document.createElement("div");
-        card.classList.add("dialog-card", "mb-4");
+        card.classList.add("dialog-card");
 
         card.innerHTML = `
             <div class="dialog-header">
                 <input type="text" class="dialog-title-input" placeholder="New Dialog" maxlength="30" spellcheck="false" autocomplete="off" autocorrect="off">
 
-                <div class="toolbar d-flex gap-2 align-items-center">
+                <div class="toolbar">
                     <button class="toolbar-btn btn-bold" title="Bold">B</button>
                     <button class="toolbar-btn btn-italic" title="Italic"><i>I</i></button>
-                    <button class="toolbar-btn btn-undo" title="Undo"><i class="bi bi-arrow-counterclockwise"></i></button>
-                    <button class="toolbar-btn btn-redo" title="Redo"><i class="bi bi-arrow-clockwise"></i></button>
-                    <button class="toolbar-btn toolbar-btn-danger btn-delete-dialog" title="Delete Dialog"><i class="bi bi-trash"></i></button>
+                    <button class="toolbar-btn btn-undo" title="Undo">${icons.undo}</button>
+                    <button class="toolbar-btn btn-redo" title="Redo">${icons.redo}</button>
+                    <button class="toolbar-btn toolbar-btn-danger btn-delete-dialog" title="Delete Dialog">${icons.trash}</button>
                 </div>
             </div>
             <div class="dialog-editor" contenteditable="true" data-placeholder="Escreva o diálogo aqui..." data-empty="true" spellcheck="false"></div>
@@ -203,24 +225,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- LÓGICA DA STORY TAB (ESTRUTURA DE CAPÍTULOS E CENAS) ---
+    // --- LÓGICA DA STORY TAB ---
     const chaptersContainer = document.getElementById("chapters-container");
     const btnAddChapter = document.getElementById("btn-add-chapter");
 
     function createSceneItem(sceneIndex) {
         const item = document.createElement("div");
-        item.classList.add("scene-item", "d-flex", "align-items-center", "justify-content-between", "p-2", "mb-2", "rounded");
+        item.classList.add("scene-item");
         item.setAttribute("draggable", "true");
 
         item.innerHTML = `
-            <div class="d-flex align-items-center gap-2 flex-grow-1">
-                <i class="bi bi-grip-vertical drag-handle" title="Arrastar para reordenar"></i>
+            <div class="scene-left">
+                <span class="drag-handle" title="Arrastar para reordenar">${icons.grip}</span>
                 <input type="text" class="scene-title-input-story" placeholder="Scene ${sceneIndex}" value="Scene ${sceneIndex}" maxlength="25">
             </div>
-            <button class="btn-delete-story-scene" title="Delete Scene"><i class="bi bi-trash"></i></button>
+            <button class="btn-delete-story-scene" title="Delete Scene">${icons.trash}</button>
         `;
 
-        // Eventos de Drag and Drop para reordenar
         item.addEventListener("dragstart", (e) => {
             item.classList.add("dragging");
             e.dataTransfer.effectAllowed = "move";
@@ -272,17 +293,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function createChapterCard(chapterNumber) {
         const chapterCard = document.createElement("div");
-        chapterCard.classList.add("chapter-card", "mb-3", "p-3", "rounded");
+        chapterCard.classList.add("chapter-card");
 
         chapterCard.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="chapter-header">
                 <input type="text" class="chapter-title-input" value="Chapter ${chapterNumber}" placeholder="Chapter ${chapterNumber}">
-                <button class="btn-delete-chapter" title="Delete Chapter"><i class="bi bi-trash"></i></button>
+                <button class="btn-delete-chapter" title="Delete Chapter">${icons.trash}</button>
             </div>
             <div class="scenes-list"></div>
-            <div class="text-center mt-3">
+            <div class="card-footer-actions">
                 <button class="btn-add-scene" title="Add Scene">
-                    <i class="bi bi-plus-lg"></i>
+                    ${icons.plus}
                 </button>
             </div>
         `;
@@ -291,10 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnAddScene = chapterCard.querySelector(".btn-add-scene");
         const btnDeleteChapter = chapterCard.querySelector(".btn-delete-chapter");
 
-        // Configura suporte a reordenação das cenas do capítulo
         setupDragAndDropList(scenesList);
-
-        // Adiciona a primeira cena por padrão
         scenesList.appendChild(createSceneItem(1));
 
         btnAddScene.addEventListener("click", () => {

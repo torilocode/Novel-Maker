@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 2. Conecta ao banco de dados
-connectDB();
+//connectDB();
 
 // Middlewares para processar JSON nas futuras requisições da API
 app.use(express.json());
@@ -23,6 +23,10 @@ app.get('/', (req, res) => {
 
 app.get('/editor', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'editor.html'));
+});
+
+app.get('/chapter', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'chapter.html'));
 });
 
 app.get('/player', (req, res) => {
