@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('partials/head', { pageTitle: 'Profile', pageCss: 'profile' }) %>
+<%- include('partials/head', { pageTitle: `${profileUser.nickname} (@${profileUser.username})`, pageCss: 'profile' }) %>
 
 <body>
 
     <div class="app-layout">
         <%- include('partials/navbar') %>
 
-        <!-- Profile Main Content -->
         <main class="profile-main">
             <div class="profile-container">
                 <!-- User Info Section -->
@@ -18,72 +17,48 @@
                     </div>
 
                     <div class="profile-identity">
-                        <h1 class="profile-nickname">Elena Vance</h1>
-                        <span class="profile-handle">@elenavance</span>
-                        <p class="profile-bio">
-                            Fantasy and mystery writer crafting atmospheric worlds, late-night drafts, and character-driven tales.
-                        </p>
+                        <h1 class="profile-nickname"><%= profileUser.nickname %></h1>
+                        <span class="profile-handle">@<%= profileUser.username %></span>
+                        <p class="profile-bio"><%= profileUser.bio %></p>
                     </div>
                 </section>
 
                 <hr class="section-divider">
 
-                <!-- Stories Section (Book Cover Cards) -->
+                <!-- Stories Section (4-column Grid: Cover + Title only) -->
                 <section class="stories-section">
                     <div class="stories-header">
                         <h2 class="stories-title">Stories</h2>
-                        <a href="/writer" class="btn-new-story">+ New Story</a>
+                        <% if (isOwnProfile) { %>
+                            <a href="/writer" class="btn-new-story">+ New Story</a>
+                        <% } %>
                     </div>
 
-                    <div class="books-grid">
-                        <!-- Book Card 1 -->
-                        <a href="/writer" class="book-card">
-                            <div class="book-cover cover-emerald">
-                                <div class="book-spine"></div>
-                                <div class="book-cover-content">
-                                    <span class="book-genre">DARK FANTASY</span>
-                                    <h3 class="book-cover-title">Ashes of the Northern Crown</h3>
-                                    <span class="book-cover-author">Elena Vance</span>
-                                </div>
-                            </div>
-                            <div class="book-meta">
-                                <span class="book-name">Ashes of the Northern Crown</span>
-                                <span class="book-chapters-count">12 Chapters</span>
-                            </div>
-                        </a>
-
-                        <!-- Book Card 2 -->
-                        <a href="/writer" class="book-card">
-                            <div class="book-cover cover-amber">
-                                <div class="book-spine"></div>
-                                <div class="book-cover-content">
-                                    <span class="book-genre">MYSTERY</span>
-                                    <h3 class="book-cover-title">The Clockmaker's Alibi</h3>
-                                    <span class="book-cover-author">Elena Vance</span>
-                                </div>
-                            </div>
-                            <div class="book-meta">
-                                <span class="book-name">The Clockmaker's Alibi</span>
-                                <span class="book-chapters-count">5 Chapters</span>
-                            </div>
-                        </a>
-
-                        <!-- Book Card 3 (Draft) -->
-                        <a href="/writer" class="book-card">
-                            <div class="book-cover cover-cognac">
-                                <div class="book-spine"></div>
-                                <div class="book-cover-content">
-                                    <span class="book-genre">DRAFT</span>
-                                    <h3 class="book-cover-title">Untitled Novel</h3>
-                                    <span class="book-cover-author">Elena Vance</span>
-                                </div>
-                            </div>
-                            <div class="book-meta">
-                                <span class="book-name">Untitled Novel</span>
-                                <span class="book-chapters-count">1 Chapter</span>
-                            </div>
-                        </a>
-                    </div>
+                    <% if (stories.length === 0) { %>
+                        <div class="empty-stories-box">
+                            <% if (isOwnProfile) { %>
+                                <p>You haven't created any stories yet.</p>
+                                <a href="/writer" class="btn-new-story">Create your first story</a>
+                            <% } else { %>
+                                <p>@<%= profileUser.username %> hasn't published any stories yet.</p>
+                            <% } %>
+                        </div>
+                    <% } else { %>
+                        <div class="books-grid-4">
+                            <% stories.forEach(story => { %>
+                                <!-- Se for o dono, abre o editor; se for visitante, mantém na página por enquanto -->
+                                <a href="<%= isOwnProfile ? `/writer/${story._id}` : `#` %>" class="book-card-clean">
+                                    <div class="book-cover <%= story.coverTheme %>">
+                                        <div class="book-spine"></div>
+                                        <div class="book-cover-content">
+                                            <h3 class="book-cover-title"><%= story.title %></h3>
+                                        </div>
+                                    </div>
+                                    <span class="book-clean-title"><%= story.title %></span>
+                                </a>
+                            <% }) %>
+                        </div>
+                    <% } %>
                 </section>
             </div>
         </main>

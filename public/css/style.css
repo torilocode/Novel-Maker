@@ -190,3 +190,18 @@ a {
   width: 56px;
   height: 56px;
 }
+
+.btn-logout-popup {
+  color: var(--color-champagne);
+  font-size: 0.78rem;
+  text-align: center;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(230, 200, 183, 0.15);
+  transition: all 0.2s ease;
+}
+
+.btn-logout-popup:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--color-blush);
+}

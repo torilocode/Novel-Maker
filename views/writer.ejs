@@ -1,71 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('partials/head', { pageTitle: 'Writer', pageCss: 'writer' }) %>
+<%- include('partials/head', { pageTitle: story ? story.title : 'Writer' , pageCss: 'writer' }) %>
 
-<body>
+    <body>
 
-    <div class="app-layout">
-        <%- include('partials/navbar') %>
+        <div class="app-layout">
+            <%- include('partials/navbar') %>
 
-        <!-- Main Editor Area -->
-        <main class="editor-workspace">
-            <!-- Top Toolbar (Title on top, tools centered below) -->
-            <header class="editor-topbar">
-                <input type="text" class="doc-title-input" placeholder="Novel Title..." maxlength="100" spellcheck="false" autocomplete="off">
+                <main class="editor-workspace" id="editor-workspace"
+                    data-story="<%= story ? JSON.stringify({ id: story._id, title: story.title, chapters: story.chapters }) : '' %>">
+                    <header class="editor-topbar">
+                        <input type="text" class="doc-title-input" id="doc-title-input"
+                            value="<%= story ? story.title : '' %>" placeholder="Novel Title..." maxlength="100"
+                            spellcheck="false" autocomplete="off">
 
-                <div class="toolbar">
-                    <button type="button" class="toolbar-btn" id="btn-bold" title="Bold">B</button>
-                    <button type="button" class="toolbar-btn" id="btn-italic" title="Italic"><i>I</i></button>
-                    <button type="button" class="toolbar-btn" id="btn-undo" title="Undo">
-                        <i data-lucide="undo-2"></i>
-                    </button>
-                    <button type="button" class="toolbar-btn" id="btn-redo" title="Redo">
-                        <i data-lucide="redo-2"></i>
-                    </button>
-                </div>
-            </header>
+                        <div class="toolbar-row">
+                            <div class="toolbar">
+                                <button type="button" class="toolbar-btn" id="btn-bold" title="Bold">B</button>
+                                <button type="button" class="toolbar-btn" id="btn-italic"
+                                    title="Italic"><i>I</i></button>
+                                <button type="button" class="toolbar-btn" id="btn-undo" title="Undo">
+                                    <i data-lucide="undo-2"></i>
+                                </button>
+                                <button type="button" class="toolbar-btn" id="btn-redo" title="Redo">
+                                    <i data-lucide="redo-2"></i>
+                                </button>
+                            </div>
 
-            <!-- Workspace Body: Text Editor + Right Chapters Sidebar -->
-            <div class="workspace-body">
-                <!-- Fullscreen Text Editor -->
-                <div class="writer-canvas" id="writer-canvas">
-                    <div id="writer-editor" class="writer-editor" contenteditable="true" data-placeholder="Start writing your story here..." data-empty="true" spellcheck="false"></div>
-                </div>
+                            <button type="button" class="btn-save-story" id="btn-save-story">
+                                <i data-lucide="save"></i>
+                                <span id="save-btn-label">Save Story</span>
+                            </button>
+                        </div>
+                    </header>
 
-                <!-- Resizable Divider -->
-                <div class="chapters-resizer" id="chapters-resizer" title="Drag to resize"></div>
+                    <div class="workspace-body">
+                        <div class="writer-canvas" id="writer-canvas">
+                            <div id="writer-editor" class="writer-editor" contenteditable="true"
+                                data-placeholder="Start writing your story here..." data-empty="true"
+                                spellcheck="false"></div>
+                        </div>
 
-                <!-- Right Chapters Sidebar -->
-                <aside class="chapters-sidebar" id="chapters-sidebar">
-                    <div class="chapters-sidebar-header">
-                        <span>Chapters in document</span>
-                        <button type="button" class="btn-add-chapter" id="btn-add-chapter" title="Add Chapter">
-                            <i data-lucide="plus"></i>
+                        <div class="chapters-resizer" id="chapters-resizer" title="Drag to resize"></div>
+
+                        <aside class="chapters-sidebar" id="chapters-sidebar">
+                            <div class="chapters-sidebar-header">
+                                <span>Chapters in document</span>
+                                <button type="button" class="btn-add-chapter" id="btn-add-chapter" title="Add Chapter">
+                                    <i data-lucide="plus"></i>
+                                </button>
+                            </div>
+
+                            <ul class="chapters-list" id="chapters-list"></ul>
+
+                            <div class="chapters-sidebar-footer">
+                                <button type="button" class="btn-hide-chapters" id="btn-hide-chapters"
+                                    title="Hide Chapters Panel">
+                                    <i data-lucide="panel-right-close"></i>
+                                    <span>Hide Chapters</span>
+                                </button>
+                            </div>
+                        </aside>
+
+                        <button type="button" class="btn-show-chapters-circle hidden" id="btn-show-chapters"
+                            title="Show Chapters Panel">
+                            <i data-lucide="panel-right-open"></i>
                         </button>
                     </div>
-
-                    <ul class="chapters-list" id="chapters-list"></ul>
-
-                    <!-- Hide Button at the bottom of the Chapters Panel -->
-                    <div class="chapters-sidebar-footer">
-                        <button type="button" class="btn-hide-chapters" id="btn-hide-chapters" title="Hide Chapters Panel">
-                            <i data-lucide="panel-right-close"></i>
-                            <span>Hide Chapters</span>
-                        </button>
-                    </div>
-                </aside>
-
-                <!-- Circular Button at Bottom-Right (Appears when Chapters Panel is hidden) -->
-                <button type="button" class="btn-show-chapters-circle hidden" id="btn-show-chapters" title="Show Chapters Panel">
-                    <i data-lucide="panel-right-open"></i>
-                </button>
-            </div>
-        </main>
-    </div>
-
-    <script src="/js/script.js"></script>
-    <script src="/js/writer.js"></script>
-</body>
+                </main>
+        </div>
+        <script src="/js/script.js"></script>
+        <script src="/js/writer.js"></script>
+    </body>
 
 </html>

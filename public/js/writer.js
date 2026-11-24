@@ -6,12 +6,67 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnUndo = document.getElementById("btn-undo");
     const btnRedo = document.getElementById("btn-redo");
 
-    // --- CHAPTERS STATE ---
-    let chapters = [
-        { id: 1, title: "Chapter 1", content: "" }
-    ];
+    // --- CHAPTERS STATE (Loaded from DB or Fresh) ---
+    const workspaceEl = document.getElementById("editor-workspace");
+    const rawStoryData = workspaceEl ? workspaceEl.dataset.story : "";
+    const initialStory = rawStoryData ? JSON.parse(rawStoryData) : null;
+    
+    let currentStoryId = initialStory ? initialStory.id : null;
+    let chapters = (initialStory && initialStory.chapters.length > 0)
+        ? initialStory.chapters.map((ch, idx) => ({
+            id: idx + 1,
+            title: ch.title,
+            content: ch.content
+        }))
+        : [{ id: 1, title: "Chapter 1", content: "" }];
+
     let activeChapterId = 1;
-    let nextChapterId = 2;
+    let nextChapterId = chapters.length + 1;
+
+    // Carrega o conteúdo inicial do capítulo 1 se já existir texto salvo
+    if (chapters[0].content) {
+        editor.innerHTML = chapters[0].content;
+        editor.removeAttribute("data-empty");
+    }
+
+    // --- SAVE STORY TO MONGODB ---
+    const btnSaveStory = document.getElementById("btn-save-story");
+    const saveBtnLabel = document.getElementById("save-btn-label");
+    const titleInput = document.getElementById("doc-title-input");
+
+    if (btnSaveStory) {
+        btnSaveStory.addEventListener("click", async () => {
+            saveCurrentChapterContent();
+            saveBtnLabel.textContent = "Saving...";
+            btnSaveStory.disabled = true;
+
+            try {
+                const response = await fetch("/api/stories/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        storyId: currentStoryId,
+                        title: titleInput.value,
+                        chapters: chapters.map(c => ({ title: c.title, content: c.content }))
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    currentStoryId = data.storyId;
+                    window.history.replaceState({}, "", `/writer/${currentStoryId}`);
+                    saveBtnLabel.textContent = "Saved!";
+                    setTimeout(() => {
+                        saveBtnLabel.textContent = "Save Story";
+                    }, 1800);
+                }
+            } catch (err) {
+                saveBtnLabel.textContent = "Error";
+            } finally {
+                btnSaveStory.disabled = false;
+            }
+        });
+    }
 
     const chaptersListEl = document.getElementById("chapters-list");
     const btnAddChapter = document.getElementById("btn-add-chapter");

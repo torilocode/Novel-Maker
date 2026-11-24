@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head', { pageTitle: 'Projects', pageCss: 'projects' }) %>
+
+<body>
+
+    <div class="app-layout">
+        <%- include('partials/navbar') %>
+
+        <main class="projects-main">
+            <div class="projects-container">
+                <header class="projects-header">
+                    <div>
+                        <h1 class="projects-title">Projects</h1>
+                        <p class="projects-subtitle">Manage your manuscripts, covers, and project details.</p>
+                    </div>
+                    <a href="/writer" class="btn-new-project">+ New Project</a>
+                </header>
+
+                <% if (stories.length === 0) { %>
+                    <div class="empty-projects-state">
+                        <p>No projects found. Start writing a story to see it listed here.</p>
+                    </div>
+                <% } else { %>
+                    <div class="projects-table-wrapper">
+                        <table class="projects-table">
+                            <thead>
+                                <tr>
+                                    <th>Cover</th>
+                                    <th>Title</th>
+                                    <th>Created At</th>
+                                    <th class="th-actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% stories.forEach(story => { %>
+                                    <tr>
+                                        <td class="td-cover">
+                                            <div class="mini-cover <%= story.coverTheme %>"></div>
+                                        </td>
+                                        <td class="td-title">
+                                            <a href="/writer/<%= story._id %>" class="project-link"><%= story.title %></a>
+                                            <span class="project-chapters-badge"><%= story.chapters.length %> chapter(s)</span>
+                                        </td>
+                                        <td class="td-date">
+                                            <%= new Date(story.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
+                                        </td>
+                                        <td class="td-actions">
+                                            <button type="button" class="btn-table-action" title="Rename Project">
+                                                <i data-lucide="pencil"></i>
+                                                <span>Rename</span>
+                                            </button>
+                                            <button type="button" class="btn-table-action" title="Change Cover Image">
+                                                <i data-lucide="image"></i>
+                                                <span>Change Cover</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
