@@ -1,0 +1,161 @@
+:root {
+  --color-blush: #f9edf0;
+  --color-champagne: #e6c8b7;
+  --color-cognac: #c3955b;
+  --color-amber: #ba6a36;
+  --color-emerald: #1c3934;
+  --color-espresso: #261311;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-espresso);
+  color: var(--color-blush);
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Main Layout Wrapper (Shared across all screens) */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Left Side Navbar */
+.side-navbar {
+  width: 68px;
+  background-color: #1b0d0c;
+  border-right: 1px solid rgba(230, 200, 183, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  flex-shrink: 0;
+  z-index: 30;
+}
+
+.nav-top {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(230, 200, 183, 0.12);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  align-items: center;
+}
+
+/* Bottom Section of Navbar (User + Settings) */
+.nav-bottom {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(230, 200, 183, 0.12);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.side-nav-btn,
+.place-holder-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background-color: transparent;
+  border: 1px solid rgba(230, 200, 183, 0.15);
+  color: var(--color-champagne);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.side-nav-btn:hover,
+.place-holder-btn:hover,
+.side-nav-btn.active {
+  background-color: var(--color-amber);
+  border-color: var(--color-amber);
+  color: var(--color-blush);
+}
+
+/* User Pop-up */
+.user-menu-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-popup {
+  position: absolute;
+  left: 56px;
+  bottom: 0;
+  width: 210px;
+  background-color: #1f0f0e;
+  border: 1px solid rgba(230, 200, 183, 0.22);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 100;
+}
+
+.user-popup.hidden {
+  display: none;
+}
+
+.user-popup-header {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(230, 200, 183, 0.12);
+  padding-bottom: 10px;
+}
+
+.popup-nickname {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-blush);
+}
+
+.popup-handle {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--color-cognac);
+}
+
+.btn-go-profile {
+  background-color: var(--color-amber);
+  color: var(--color-blush);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-go-profile:hover {
+  background-color: var(--color-cognac);
+  color: var(--color-espresso);
+}
