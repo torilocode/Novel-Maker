@@ -46,8 +46,7 @@
                     <% } else { %>
                         <div class="books-grid-4">
                             <% stories.forEach(story => { %>
-                                <!-- Se for o dono, abre o editor; se for visitante, mantém na página por enquanto -->
-                                <a href="<%= isOwnProfile ? `/writer/${story._id}` : `#` %>" class="book-card-clean">
+                                <a href="<%= isOwnProfile ? `/writer/${story._id}` : `/read/${story._id}` %>" class="book-card-clean">
                                     <div class="book-cover <%= story.coverTheme %>">
                                         <div class="book-spine"></div>
                                         <div class="book-cover-content">

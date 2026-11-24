@@ -33,6 +33,15 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    const originalRender = res.render;
+    res.render = function (view, options, callback) {
+        res.locals.activePage = view; // Ex: 'explore', 'profile', 'writer'
+        originalRender.call(this, view, options, callback);
+    };
+    next();
+});
+
 function requireAuth(req, res, next) {
     if (!req.session.user) return res.redirect('/login');
     next();
@@ -62,6 +71,35 @@ app.get('/writer/:id', requireAuth, async (req, res) => {
     } catch (err) {
         res.redirect('/writer');
     }
+});
+
+// Rota pública do leitor de histórias (ex: /read/ID_DA_HISTORIA)
+app.get('/read/:storyId', async (req, res) => {
+    try {
+        const story = await Story.findById(req.params.storyId).populate('author', 'username displayName');
+        if (!story) {
+            return res.status(404).send('Story not found');
+        }
+
+        const isAuthor = Boolean(
+            req.session.user && story.author && req.session.user.id.toString() === story.author._id.toString()
+        );
+
+        res.render('reader', {
+            activePage: 'explore',
+            story,
+            isAuthor
+        });
+    } catch (err) {
+        console.error(err);
+        res.redirect('/');
+    }
+});
+
+// Rota pública do catálogo Explorar
+app.get('/explore', async (req, res) => {
+    const stories = await Story.find().populate('author', 'username nickname').sort({ updatedAt: -1 });
+    res.render('explore', { stories }); // activePage já será 'explore' automaticamente!
 });
 
 // Perfil: grade 4xN limpa (capa + título)

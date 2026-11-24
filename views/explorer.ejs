@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head', { pageTitle: 'Explore Novels - NovelMaker', pageCss: 'profile' }) %>
+
+<style>
+    .explore-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .explore-title {
+        font-size: 2rem;
+        margin: 0 0 0.35rem;
+    }
+
+    .explore-subtitle {
+        opacity: 0.7;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    .book-author-link {
+        display: block;
+        font-size: 0.82rem;
+        opacity: 0.65;
+        margin-top: 0.2rem;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .book-author-link:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+</style>
+
+<body>
+    <div class="app-layout">
+        <%- include('partials/navbar') %>
+
+        <main class="profile-main">
+            <div class="profile-container">
+                <section class="explore-header">
+                    <h1 class="explore-title">Explore Novels</h1>
+                    <p class="explore-subtitle">Discover stories written by the NovelMaker community.</p>
+                </section>
+
+                <hr class="section-divider">
+
+                <section class="stories-section">
+                    <% if (!stories || stories.length === 0) { %>
+                        <div class="empty-stories-box">
+                            <p>No stories have been published yet.</p>
+                            <a href="/writer" class="btn-new-story">Write the first story</a>
+                        </div>
+                    <% } else { %>
+                        <div class="books-grid-4">
+                            <% stories.forEach(story => { %>
+                                <div class="book-card-wrapper">
+                                    <a href="/read/<%= story._id %>" class="book-card-clean">
+                                        <div class="book-cover <%= story.coverTheme %>">
+                                            <div class="book-spine"></div>
+                                            <div class="book-cover-content">
+                                                <h3 class="book-cover-title"><%= story.title %></h3>
+                                            </div>
+                                        </div>
+                                        <span class="book-clean-title"><%= story.title %></span>
+                                    </a>
+
+                                    <% if (story.author) { %>
+                                        <a href="/profile/<%= story.author.username %>" class="book-author-link">
+                                            by <%= story.author.nickname || story.author.username %>
+                                        </a>
+                                    <% } %>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
