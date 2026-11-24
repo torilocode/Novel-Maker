@@ -6,20 +6,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnUndo = document.getElementById("btn-undo");
     const btnRedo = document.getElementById("btn-redo");
 
-    // --- ESTADO DOS CAPÍTULOS ---
-    let chapters = [];
+    // --- CHAPTERS STATE ---
+    let chapters = [
+        { id: 1, title: "Chapter 1", content: "" }
+    ];
     let activeChapterId = 1;
-    let nextChapterId = 3;
+    let nextChapterId = 2;
 
     const chaptersListEl = document.getElementById("chapters-list");
     const btnAddChapter = document.getElementById("btn-add-chapter");
-    const btnToggleChapters = document.getElementById("btn-toggle-chapters");
     const chaptersSidebar = document.getElementById("chapters-sidebar");
+    const btnHideChapters = document.getElementById("btn-hide-chapters");
+    const btnShowChapters = document.getElementById("btn-show-chapters");
 
-    // Alternar visibilidade do painel lateral de capítulos
-    if (btnToggleChapters && chaptersSidebar) {
-        btnToggleChapters.addEventListener("click", () => {
-            chaptersSidebar.classList.toggle("collapsed");
+    // Hide chapters panel -> circular button appears at bottom-right
+    if (btnHideChapters && btnShowChapters && chaptersSidebar) {
+        btnHideChapters.addEventListener("click", () => {
+            chaptersSidebar.classList.add("collapsed");
+            btnShowChapters.classList.remove("hidden");
+        });
+
+        // Show chapters panel -> circular button hides
+        btnShowChapters.addEventListener("click", () => {
+            chaptersSidebar.classList.remove("collapsed");
+            btnShowChapters.classList.add("hidden");
         });
     }
 
@@ -73,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </button>
             `;
 
-            // Selecionar capítulo ao clicar
+            // Select chapter on click
             li.addEventListener("click", (e) => {
                 if (e.target.closest(".btn-chapter-options") || e.target.classList.contains("chapter-title-edit")) {
                     return;
@@ -84,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            // Duplo clique no título para renomear o capítulo
+            // Double-click title to rename chapter
             const titleSpan = li.querySelector(".chapter-title-text");
             titleSpan.addEventListener("dblclick", (e) => {
                 e.stopPropagation();
@@ -115,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             });
 
-            // Botão de 3 pontinhos para remover o capítulo (mantém pelo menos 1)
+            // Delete chapter button (keeps at least 1)
             const btnOptions = li.querySelector(".btn-chapter-options");
             btnOptions.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -133,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Adicionar novo capítulo no botão "+"
+    // Add new chapter
     btnAddChapter.addEventListener("click", () => {
         saveCurrentChapterContent();
         const newChapter = {
@@ -145,10 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
         loadChapterContent(newChapter.id);
     });
 
-    // Inicializa a lista de capítulos
     renderChaptersList();
 
-    // --- ATUALIZAÇÃO DO ESTADO ACESO DOS BOTÕES ---
+    // --- TOOLBAR ACTIVE STATES ---
     function updateToolbarStates() {
         try {
             const isBold = document.queryCommandState("bold");
@@ -157,11 +166,10 @@ document.addEventListener("DOMContentLoaded", () => {
             btnBold.classList.toggle("active", isBold);
             btnItalic.classList.toggle("active", isItalic);
         } catch (err) {
-            // Ignora caso não haja seleção ativa
+            // Ignore when no active selection
         }
     }
 
-    // Foca no editor mesmo se clicar fora da coluna central de texto
     canvas.addEventListener("click", (e) => {
         if (e.target === canvas) {
             editor.focus();
@@ -196,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
         updateToolbarStates();
     });
 
-    // Escuta mudanças de digitação, teclas e seleção de texto para atualizar os botões
     editor.addEventListener("input", () => {
         if (editor.innerText.trim() === "") {
             editor.innerHTML = "";
@@ -216,15 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    editor.addEventListener("keyup", updateToolbarStates);
-    editor.addEventListener("mouseup", updateToolbarStates);
-    document.addEventListener("selectionchange", () => {
-        if (document.activeElement === editor) {
-            updateToolbarStates();
-        }
-    });
-
-    // --- REDIMENSIONAMENTO DO PAINEL DE CAPÍTULOS ---
+    // --- CHAPTERS SIDEBAR RESIZING ---
     const resizer = document.getElementById("chapters-resizer");
     let isResizing = false;
 
@@ -239,11 +238,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("mousemove", (e) => {
             if (!isResizing) return;
 
-            // Calcula a largura a partir da borda direita do painel
             const sidebarRightEdge = chaptersSidebar.getBoundingClientRect().right;
             const newWidth = sidebarRightEdge - e.clientX;
 
-            if (newWidth >= 180 && newWidth <= 480) {
+            if (newWidth >= 190 && newWidth <= 480) {
                 chaptersSidebar.style.width = `${newWidth}px`;
             }
         });
@@ -255,6 +253,4 @@ document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.remove("is-resizing");
         });
     }
-
 });
-

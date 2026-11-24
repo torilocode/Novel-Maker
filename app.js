@@ -25,6 +25,10 @@ app.get('/writer', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'writer.html'));
 });
 
+app.get('/profile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor executando em http://localhost:${PORT}`);
 });

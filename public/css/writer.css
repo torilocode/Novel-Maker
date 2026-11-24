@@ -1,83 +1,4 @@
-:root {
-  --color-blush: #f9edf0;
-  --color-champagne: #e6c8b7;
-  --color-cognac: #c3955b;
-  --color-amber: #ba6a36;
-  --color-emerald: #1c3934;
-  --color-espresso: #261311;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: var(--color-espresso);
-  color: var(--color-blush);
-  font-family: 'Poppins', sans-serif;
-  height: 100vh;
-  overflow: hidden;
-}
-
-/* Estrutura Principal (Sidebar + Workspace) */
-.writer-layout {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-}
-
-/* Navbar Lateral Esquerda */
-.side-navbar {
-  width: 68px;
-  background-color: #1b0d0c;
-  border-right: 1px solid rgba(230, 200, 183, 0.12);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px 0;
-  flex-shrink: 0;
-}
-
-.nav-top {
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(230, 200, 183, 0.12);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.nav-items {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  width: 100%;
-  align-items: center;
-}
-
-.place-holder-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  background-color: transparent;
-  border: 1px solid rgba(230, 200, 183, 0.15);
-  color: var(--color-champagne);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.place-holder-btn:hover {
-  background-color: var(--color-amber);
-  border-color: var(--color-amber);
-  color: var(--color-blush);
-}
-
-/* Área de Trabalho do Editor */
+/* Editor Workspace */
 .editor-workspace {
   flex-grow: 1;
   display: flex;
@@ -86,7 +7,7 @@ body {
   min-width: 0;
 }
 
-/* Barra de Ferramentas Superior */
+/* Top Toolbar */
 .editor-topbar {
   height: 60px;
   background-color: var(--color-emerald);
@@ -147,7 +68,6 @@ body {
   background-color: rgba(255, 255, 255, 0.12);
 }
 
-/* Estado aceso quando a ferramenta está ativada */
 .toolbar-btn.active {
   background-color: var(--color-amber);
   color: var(--color-blush);
@@ -155,35 +75,82 @@ body {
   box-shadow: 0 0 10px rgba(186, 106, 54, 0.45);
 }
 
-/* Corpo do Workspace (Capítulos + Editor) */
+/* Workspace Body */
 .workspace-body {
   display: flex;
   flex-grow: 1;
   height: calc(100vh - 60px);
   overflow: hidden;
+  position: relative;
 }
 
-/* Painel Lateral de Capítulos */
-.chapters-sidebar {
-  width: 250px;
-  min-width: 180px;
-  max-width: 480px;
-  background-color: #1f0f0e;
-  padding: 20px 12px;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
+/* Fullscreen Text Area */
+.writer-canvas {
+  flex-grow: 1;
   overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 40px 32px;
+  cursor: text;
+  position: relative;
 }
 
-.chapters-sidebar.collapsed {
-  width: 0 !important;
-  min-width: 0 !important;
-  padding: 20px 0;
-  overflow: hidden;
+.writer-editor {
+  width: 100%;
+  max-width: 820px;
+  min-height: 100%;
+  color: var(--color-blush);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  outline: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
 }
 
-/* Alça de Redimensionamento */
+.writer-editor:empty::before,
+.writer-editor[data-empty="true"]::before {
+  content: attr(data-placeholder);
+  color: rgba(230, 200, 183, 0.35);
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Circular Button at Bottom-Right when Chapters Sidebar is hidden */
+.btn-show-chapters-circle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: #1f0f0e;
+  border: 1px solid rgba(230, 200, 183, 0.25);
+  color: var(--color-champagne);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  z-index: 20;
+  transition: all 0.2s ease;
+}
+
+.btn-show-chapters-circle:hover {
+  background-color: var(--color-amber);
+  border-color: var(--color-amber);
+  color: var(--color-blush);
+  transform: scale(1.06);
+}
+
+.btn-show-chapters-circle.hidden {
+  display: none;
+}
+
+/* Resizable Divider */
 .chapters-resizer {
   width: 4px;
   background-color: rgba(230, 200, 183, 0.12);
@@ -197,16 +164,31 @@ body {
   background-color: var(--color-amber);
 }
 
-/* Esconde a alça quando o painel estiver recolhido */
 .chapters-resizer:has(+ .chapters-sidebar.collapsed) {
   display: none;
 }
 
-/* Evita seleção acidental de texto enquanto arrasta */
 body.is-resizing {
   cursor: col-resize;
   user-select: none;
 }
+
+/* Right Chapters Sidebar */
+.chapters-sidebar {
+  width: 260px;
+  min-width: 190px;
+  max-width: 480px;
+  background-color: #1f0f0e;
+  padding: 20px 12px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.chapters-sidebar.collapsed {
+  display: none;
+}
+
 .chapters-sidebar-header {
   display: flex;
   justify-content: space-between;
@@ -215,6 +197,7 @@ body.is-resizing {
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--color-champagne);
+  flex-shrink: 0;
 }
 
 .btn-add-chapter {
@@ -241,9 +224,43 @@ body.is-resizing {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
-/* Item de Capítulo em formato de pílula arredondada */
+/* Chapters Panel Footer (Hide Button at the bottom) */
+.chapters-sidebar-footer {
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(230, 200, 183, 0.12);
+  flex-shrink: 0;
+}
+
+.btn-hide-chapters {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(230, 200, 183, 0.15);
+  color: var(--color-champagne);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.83rem;
+  font-weight: 600;
+  padding: 9px 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-hide-chapters:hover {
+  background-color: var(--color-amber);
+  border-color: var(--color-amber);
+  color: var(--color-blush);
+}
+
+/* Chapter Pill Item */
 .chapter-item {
   display: flex;
   align-items: center;
@@ -255,7 +272,6 @@ body.is-resizing {
   font-size: 0.9rem;
   font-weight: 500;
   transition: background-color 0.15s ease, color 0.15s ease;
-  position: relative;
 }
 
 .chapter-item:hover {
@@ -322,38 +338,4 @@ body.is-resizing {
 
 .btn-chapter-options:hover {
   background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Área do Texto (Preenche o restante da tela) */
-.writer-canvas {
-  flex-grow: 1;
-  overflow-y: auto;
-  display: flex;
-  justify-content: center;
-  padding: 40px 32px;
-  cursor: text;
-}
-
-.writer-editor {
-  width: 100%;
-  max-width: 820px;
-  min-height: 100%;
-  color: var(--color-blush);
-  font-family: 'Roboto Mono', monospace;
-  font-size: 1.05rem;
-  line-height: 1.8;
-  outline: none;
-  white-space: pre-wrap;
-  word-break: break-word;
-  position: relative;
-}
-
-.writer-editor:empty::before,
-.writer-editor[data-empty="true"]::before {
-  content: attr(data-placeholder);
-  color: rgba(230, 200, 183, 0.35);
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
