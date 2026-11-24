@@ -1,0 +1,51 @@
+<!-- Left Side Navbar -->
+<aside class="side-navbar">
+    <div class="nav-top">
+        <a href="/" class="side-nav-btn <%= activePage === 'home' ? 'active' : '' %>" title="Home">
+            <i data-lucide="home"></i>
+        </a>
+    </div>
+
+   <nav class="nav-items">
+        <a href="/writer" class="side-nav-btn <%= activePage === 'writer' ? 'active' : '' %>" title="Writer">
+            <i data-lucide="pen-line"></i>
+        </a>
+        <a href="/projects" class="side-nav-btn <%= activePage === 'projects' ? 'active' : '' %>" title="Projects">
+            <i data-lucide="file-text"></i>
+        </a>
+        <button type="button" class="place-holder-btn" title="Explore Stories">
+            <i data-lucide="globe"></i>
+        </button>
+    </nav>
+
+    <!-- Bottom Section: User + Settings -->
+    <div class="nav-bottom">
+        <div class="user-menu-wrapper">
+            <button type="button" class="side-nav-btn" id="btn-user-menu" title="User Account">
+                <i data-lucide="user"></i>
+            </button>
+
+            <!-- User Pop-up -->
+            <div class="user-popup hidden" id="user-popup">
+                <% if (currentUser) { %>
+                    <div class="user-popup-header">
+                        <span class="popup-nickname"><%= currentUser.nickname %></span>
+                        <span class="popup-handle">@<%= currentUser.username %></span>
+                    </div>
+                    <a href="/profile/<%= currentUser.username %>" class="btn-go-profile">Go to User Profile</a>
+                    <a href="/logout" class="btn-logout-popup">Log Out</a>
+                <% } else { %>
+                    <div class="user-popup-header">
+                        <span class="popup-nickname">Guest Writer</span>
+                        <span class="popup-handle">Not signed in</span>
+                    </div>
+                    <a href="/login" class="btn-go-profile">Sign In / Register</a>
+                <% } %>
+            </div>
+        </div>
+
+        <button type="button" class="place-holder-btn" title="Settings">
+            <i data-lucide="settings"></i>
+        </button>
+    </div>
+</aside>

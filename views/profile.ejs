@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head', { pageTitle: `${profileUser.nickname} (@${profileUser.username})`, pageCss: 'profile' }) %>
+
+<body>
+
+    <div class="app-layout">
+        <%- include('partials/navbar') %>
+
+        <main class="profile-main">
+            <div class="profile-container">
+                <!-- User Info Section -->
+                <section class="profile-header">
+                    <div class="avatar-placeholder" title="User Avatar Placeholder">
+                        <i data-lucide="user"></i>
+                    </div>
+
+                    <div class="profile-identity">
+                        <h1 class="profile-nickname"><%= profileUser.nickname %></h1>
+                        <span class="profile-handle">@<%= profileUser.username %></span>
+                        <p class="profile-bio"><%= profileUser.bio %></p>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- Stories Section (4-column Grid: Cover + Title only) -->
+                <section class="stories-section">
+                    <div class="stories-header">
+                        <h2 class="stories-title">Stories</h2>
+                        <% if (isOwnProfile) { %>
+                            <a href="/writer" class="btn-new-story">+ New Story</a>
+                        <% } %>
+                    </div>
+
+                    <% if (stories.length === 0) { %>
+                        <div class="empty-stories-box">
+                            <% if (isOwnProfile) { %>
+                                <p>You haven't created any stories yet.</p>
+                                <a href="/writer" class="btn-new-story">Create your first story</a>
+                            <% } else { %>
+                                <p>@<%= profileUser.username %> hasn't published any stories yet.</p>
+                            <% } %>
+                        </div>
+                    <% } else { %>
+                        <div class="books-grid-4">
+                            <% stories.forEach(story => { %>
+                                <a href="<%= isOwnProfile ? `/writer/${story._id}` : `/read/${story._id}` %>" class="book-card-clean">
+                                    <div class="book-cover <%= story.coverTheme %>">
+                                        <div class="book-spine"></div>
+                                        <div class="book-cover-content">
+                                            <h3 class="book-cover-title"><%= story.title %></h3>
+                                        </div>
+                                    </div>
+                                    <span class="book-clean-title"><%= story.title %></span>
+                                </a>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/script.js"></script>
+</body>
+
+</html>

@@ -95,11 +95,50 @@
   background-color: var(--color-amber);
 }
 
-/* Book Cover Grid */
-.books-grid {
+/* 4-column Grid (4 per row, N rows vertically) */
+.books-grid-4 {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.book-card-clean {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.22s ease;
+}
+
+.book-card-clean:hover {
+  transform: translateY(-5px);
+}
+
+.book-clean-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-blush);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty-stories-box {
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(230, 200, 183, 0.22);
+  border-radius: 14px;
+  padding: 44px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  color: var(--color-champagne);
+}
+
+@media (max-width: 900px) {
+  .books-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .book-card {
@@ -201,4 +240,9 @@
     flex-direction: column;
     text-align: center;
   }
+}
+
+.avatar-placeholder svg {
+  width: 56px;
+  height: 56px;
 }
