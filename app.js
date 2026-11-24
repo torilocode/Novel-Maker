@@ -21,16 +21,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.get('/editor', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'editor.html'));
-});
-
-app.get('/chapter', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'chapter.html'));
-});
-
-app.get('/player', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'player.html'));
+app.get('/writer', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'writer.html'));
 });
 
 app.listen(PORT, () => {
