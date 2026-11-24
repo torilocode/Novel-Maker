@@ -35,8 +35,8 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     const originalRender = res.render;
-    res.render = function (view, options, callback) {
-        res.locals.activePage = view; // Ex: 'explore', 'profile', 'writer'
+    res.render = function (view, options = {}, callback) {
+        res.locals.activePage = options.activePage || view;
         originalRender.call(this, view, options, callback);
     };
     next();
@@ -46,6 +46,7 @@ function requireAuth(req, res, next) {
     if (!req.session.user) return res.redirect('/login');
     next();
 }
+
 
 // --- ROTAS DE PÁGINAS ---
 app.get('/', (req, res) => {
@@ -96,10 +97,10 @@ app.get('/read/:storyId', async (req, res) => {
     }
 });
 
-// Rota pública do catálogo Explorar
-app.get('/explore', async (req, res) => {
+// Rota pública do catálogo Discover
+app.get('/discover', async (req, res) => {
     const stories = await Story.find().populate('author', 'username nickname').sort({ updatedAt: -1 });
-    res.render('explore', { stories }); // activePage já será 'explore' automaticamente!
+    res.render('discover', { stories }); // activePage já será 'discover' automaticamente!
 });
 
 // Perfil: grade 4xN limpa (capa + título)

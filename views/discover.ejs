@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('partials/head', { pageTitle: 'Explore Novels - NovelMaker', pageCss: 'profile' }) %>
+<%- include('partials/head', { pageTitle: 'Discover - NovelMaker', pageCss: 'profile' }) %>
 
 <style>
     .explore-header {
@@ -19,6 +19,52 @@
         margin: 0;
     }
 
+    /* Trava as 4 colunas para nunca esticarem com títulos longos sem espaço */
+    .books-grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.5rem;
+    }
+
+    .book-card-wrapper,
+    .book-card-clean {
+        width: 100%;
+        min-width: 0;
+        display: block;
+    }
+
+    /* Tamanho/proporção 100% fixos para todas as capas */
+    .book-cover {
+        width: 100%;
+        height: 260px;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .book-cover-content {
+        width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .book-cover-title {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .book-clean-title {
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .book-author-link {
         display: block;
         font-size: 0.82rem;
@@ -26,6 +72,9 @@
         margin-top: 0.2rem;
         text-decoration: none;
         color: inherit;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .book-author-link:hover {
@@ -41,7 +90,7 @@
         <main class="profile-main">
             <div class="profile-container">
                 <section class="explore-header">
-                    <h1 class="explore-title">Explore Novels</h1>
+                    <h1 class="explore-title">Discover</h1>
                     <p class="explore-subtitle">Discover stories written by the NovelMaker community.</p>
                 </section>
 
