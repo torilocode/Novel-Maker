@@ -66,20 +66,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             li.innerHTML = `
                 <div class="chapter-item-left">
-                    <svg class="chapter-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                    </svg>
+                    <i data-lucide="file-text" class="chapter-icon"></i>
                     <span class="chapter-title-text">${chapter.title}</span>
                 </div>
                 <button type="button" class="btn-chapter-options" title="Delete chapter">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="12" cy="5" r="1"></circle>
-                        <circle cx="12" cy="19" r="1"></circle>
-                    </svg>
+                    <i data-lucide="more-vertical"></i>
                 </button>
             `;
 
@@ -141,6 +132,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             chaptersListEl.appendChild(li);
         });
+
+        // Re-render Lucide icons for newly created chapter items
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
     }
 
     // Add new chapter

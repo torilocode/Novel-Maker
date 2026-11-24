@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head', { pageTitle: 'Home', pageCss: 'index' }) %>
+
+<body>
+
+    <div class="app-layout">
+        <%- include('partials/navbar') %>
+
+        <!-- Main Content Area -->
+        <main class="landing-main">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1 class="hero-title">NovelMaker</h1>
+                <p class="hero-subtitle">A distraction-free environment crafted for novelists, worldbuilders, and storytellers.</p>
+                <a href="/writer" class="btn-start-writing">Start Writing</a>
+            </section>
+
+            <!-- Interactive 3-State Feature Showcase -->
+            <section class="showcase-section">
+                <div class="showcase-tabs">
+                    <button type="button" class="showcase-tab active" data-state="0">Distraction-Free Editor</button>
+                    <button type="button" class="showcase-tab" data-state="1">Chapter Organization</button>
+                    <button type="button" class="showcase-tab" data-state="2">Rich Text & Focus</button>
+                </div>
+
+                <div class="showcase-card">
+                    <!-- Left: Image Placeholder -->
+                    <div class="showcase-media">
+                        <div class="placeholder-frame" id="showcase-frame">
+                            <span class="placeholder-badge" id="showcase-badge">Preview 01 / 03</span>
+                            <div class="placeholder-mockup">
+                                <div class="mockup-bar"></div>
+                                <div class="mockup-line w-80"></div>
+                                <div class="mockup-line w-90"></div>
+                                <div class="mockup-line w-60"></div>
+                            </div>
+                            <span class="placeholder-caption" id="showcase-caption">Workspace Preview Placeholder</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Text Explanation + Controls -->
+                    <div class="showcase-content">
+                        <span class="showcase-step-label" id="showcase-step">Feature 01</span>
+                        <h2 class="showcase-title" id="showcase-title">Immerse Yourself in Your Manuscript</h2>
+                        <p class="showcase-description" id="showcase-description">
+                            Write in a clean, warm-toned fullscreen canvas engineered to reduce eye strain during long creative writing sessions.
+                        </p>
+
+                        <div class="showcase-controls">
+                            <button type="button" class="control-arrow" id="btn-prev-state" title="Previous">
+                                <i data-lucide="chevron-left"></i>
+                            </button>
+                            <div class="showcase-dots">
+                                <button type="button" class="dot active" data-state="0" aria-label="State 1"></button>
+                                <button type="button" class="dot" data-state="1" aria-label="State 2"></button>
+                                <button type="button" class="dot" data-state="2" aria-label="State 3"></button>
+                            </div>
+                            <button type="button" class="control-arrow" id="btn-next-state" title="Next">
+                                <i data-lucide="chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/script.js"></script>
+    <script src="/js/index.js"></script>
+</body>
+
+</html>

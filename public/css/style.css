@@ -97,6 +97,12 @@ a {
   color: var(--color-blush);
 }
 
+.side-nav-btn svg,
+.place-holder-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
 /* User Pop-up */
 .user-menu-wrapper {
   position: relative;
@@ -158,4 +164,29 @@ a {
 .btn-go-profile:hover {
   background-color: var(--color-cognac);
   color: var(--color-espresso);
+}
+
+/* External SVG Icon Helper (Inherits button text color) */
+.icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  flex-shrink: 0;
+}
+
+.icon-sm {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-lg {
+  width: 56px;
+  height: 56px;
 }

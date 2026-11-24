@@ -1,0 +1,39 @@
+<!-- Left Side Navbar -->
+<aside class="side-navbar">
+    <div class="nav-top">
+        <a href="/" class="side-nav-btn <%= activePage === 'home' ? 'active' : '' %>" title="Home">
+            <i data-lucide="home"></i>
+        </a>
+    </div>
+
+    <nav class="nav-items">
+        <a href="/writer" class="side-nav-btn <%= activePage === 'writer' ? 'active' : '' %>" title="Writer">
+            <i data-lucide="pen-line"></i>
+        </a>
+        <button type="button" class="place-holder-btn" title="Projects">
+            <i data-lucide="file-text"></i>
+        </button>
+    </nav>
+
+    <!-- Bottom Section: User + Settings -->
+    <div class="nav-bottom">
+        <div class="user-menu-wrapper">
+            <button type="button" class="side-nav-btn" id="btn-user-menu" title="User Account">
+                <i data-lucide="user"></i>
+            </button>
+
+            <!-- User Pop-up -->
+            <div class="user-popup hidden" id="user-popup">
+                <div class="user-popup-header">
+                    <span class="popup-nickname">Elena Vance</span>
+                    <span class="popup-handle">@elenavance</span>
+                </div>
+                <a href="/profile" class="btn-go-profile">Go to User Profile</a>
+            </div>
+        </div>
+
+        <button type="button" class="place-holder-btn" title="Settings">
+            <i data-lucide="settings"></i>
+        </button>
+    </div>
+</aside>

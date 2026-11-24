@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Render all Lucide icons on the page
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+
+    // User Account Pop-up Logic
     const btnUserMenu = document.getElementById("btn-user-menu");
     const userPopup = document.getElementById("user-popup");
 
@@ -8,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
             userPopup.classList.toggle("hidden");
         });
 
-        // Fecha o pop-up ao clicar fora dele
         document.addEventListener("click", (e) => {
             if (!userPopup.contains(e.target) && e.target !== btnUserMenu) {
                 userPopup.classList.add("hidden");

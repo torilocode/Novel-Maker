@@ -1,34 +1,27 @@
-require('dotenv').config();
-
 const express = require('express');
 const path = require('path');
-const connectDB = require('./public/config/db'); // 1. Importa a conexão com o MongoDB
-
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// 2. Conecta ao banco de dados
-//connectDB();
+// Configura o EJS e a pasta views
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// Middlewares para processar JSON nas futuras requisições da API
-app.use(express.json());
-
-// Servir arquivos estáticos da pasta 'public'
+// Mantém a pasta public para CSS, JS e imagens
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rotas das páginas principais
+// Rotas usando res.render() e passando qual página está ativa
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.render('index', { activePage: 'home' });
 });
 
 app.get('/writer', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'writer.html'));
+  res.render('writer', { activePage: 'writer' });
 });
 
 app.get('/profile', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'profile.html'));
+  res.render('profile', { activePage: 'profile' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor executando em http://localhost:${PORT}`);
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
 });
