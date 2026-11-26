@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head', { pageTitle: title || 'Not Found' , pageCss: '404' }) %>
+
+    <body>
+        <div class="app-layout">
+            <%- include('partials/navbar') %>
+                <main class="not-found-main">
+                    <div class="not-found-card">
+                        <div class="not-found-icon">
+                            <i data-lucide="<%= typeof icon !== 'undefined' ? icon : 'book-x' %>"></i>
+                        </div>
+
+                        <span class="not-found-code">Error 404</span>
+                        <h1 class="not-found-title">
+                            <%= title || 'Novel Not Found' %>
+                        </h1>
+                        <p class="not-found-message">
+                            <%= message || 'This manuscript may have been removed, kept private, or the link might be broken.'%>
+                        </p>
+
+                        <div class="not-found-actions">
+                            <a href="/discover" class="btn-not-found-primary">
+                                <i data-lucide="compass"></i>
+                                <span>Explore Novels</span>
+                            </a>
+                            <a href="/" class="btn-not-found-secondary">
+                                <i data-lucide="home"></i>
+                                <span>Back Home</span>
+                            </a>
+                        </div>
+                    </div>
+                </main>
+        </div>
+        <script src="/js/script.js"></script>
+    </body>
+
+</html>

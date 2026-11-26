@@ -17,15 +17,20 @@ const storySchema = new mongoose.Schema({
         trim: true,
         default: 'Untitled Novel'
     },
+    synopsis: {
+        type: String,
+        trim: true,
+        default: ''
+    },
     coverTheme: {
         type: String,
-        enum: ['cover-emerald', 'cover-amber', 'cover-cognac'],
         default: 'cover-emerald'
     },
-    chapters: {
-        type: [chapterSchema],
-        default: [{ title: 'Chapter 1', content: '' }]
-    }
+    coverImage: {
+        type: String,
+        default: null
+    },
+    chapters: [chapterSchema]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Story', storySchema);

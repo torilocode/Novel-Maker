@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head', { pageTitle: story.title, pageCss: 'novel-details' }) %>
+
+    <body>
+        <div class="app-layout">
+            <%- include('partials/navbar') %>
+
+                <main class="page-main">
+                    <div class="novel-showcase-container">
+                        <!-- Hero estilo vitrine -->
+                        <section class="novel-hero">
+                            <div class="novel-cover-col">
+                                <div
+                                    class="book-cover novel-hero-cover <%= story.coverImage ? 'has-custom-cover' : story.coverTheme %>">
+                                    <div class="book-spine"></div>
+                                    <% if (story.coverImage) { %>
+                                        <img src="<%= story.coverImage %>" alt="<%= story.title %>"
+                                            class="book-cover-img">
+                                        <% } else { %>
+                                            <div class="book-cover-content">
+                                                <h3 class="book-cover-title">
+                                                    <%= story.title %>
+                                                </h3>
+                                            </div>
+                                            <% } %>
+                                </div>
+                            </div>
+
+                            <div class="novel-info-col">
+                                <span class="novel-badge">NovelMaker Original</span>
+                                <h1 class="novel-hero-title">
+                                    <%= story.title %>
+                                </h1>
+
+                                <div class="novel-author-row">
+                                    <span>By</span>
+                                    <a href="/profile/<%= story.author.username %>" class="novel-author-link">
+                                        <%= story.author.nickname || story.author.username %>
+                                    </a>
+                                    <span class="novel-dot">•</span>
+                                    <span class="novel-meta-item">
+                                        <%= story.chapters.length %>
+                                            <%= story.chapters.length===1 ? 'Chapter' : 'Chapters' %>
+                                    </span>
+                                </div>
+
+                                <div class="novel-synopsis-box">
+                                    <h2 class="novel-section-label">Synopsis</h2>
+                                    <% if (story.synopsis && story.synopsis.trim().length> 0) { %>
+                                        <p class="novel-synopsis-text">
+                                            <%= story.synopsis %>
+                                        </p>
+                                        <% } else { %>
+                                            <p class="novel-synopsis-empty">No synopsis provided by the author yet.</p>
+                                            <% } %>
+                                </div>
+
+                                <div class="novel-hero-actions">
+                                    <% if (story.chapters.length> 0) { %>
+                                        <a href="/read/<%= story._id %>" class="btn-start-reading">
+                                            <i data-lucide="book-open"></i>
+                                            <span>Start Reading</span>
+                                        </a>
+                                        <% } %>
+
+                                            <% if (isAuthor) { %>
+                                                <a href="/writer/<%= story._id %>" class="btn-novel-secondary">
+                                                    <i data-lucide="pen-line"></i>
+                                                    <span>Open in Writer</span>
+                                                </a>
+                                                <a href="/projects" class="btn-novel-secondary">
+                                                    <i data-lucide="sliders-horizontal"></i>
+                                                    <span>Edit Details</span>
+                                                </a>
+                                                <% } %>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Lista de Capítulos -->
+                        <section class="novel-chapters-section">
+                            <h2 class="novel-chapters-heading">Chapters</h2>
+
+                            <% if (story.chapters.length===0) { %>
+                                <p class="novel-synopsis-empty">This novel has no published chapters yet.</p>
+                                <% } else { %>
+                                    <div class="novel-chapters-list">
+                                        <% story.chapters.forEach((chapter, index)=> { %>
+                                            <a href="/read/<%= story._id %>?chapter=<%= index %>"
+                                                class="novel-chapter-item">
+                                                <span class="chapter-index">Chapter <%= index + 1 %></span>
+                                                <span class="chapter-name">
+                                                    <%= chapter.title || `Chapter ${index + 1}` %>
+                                                </span>
+                                                <i data-lucide="chevron-right" class="chapter-arrow"></i>
+                                            </a>
+                                            <% }) %>
+                                    </div>
+                                    <% } %>
+                        </section>
+                    </div>
+                </main>
+        </div>
+
+        <script src="/js/script.js"></script>
+    </body>
+
+</html>

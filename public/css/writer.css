@@ -44,6 +44,13 @@
   color: rgba(249, 237, 240, 0.55);
 }
 
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
 .toolbar {
   display: flex;
   align-items: center;
@@ -82,7 +89,33 @@
   box-shadow: 0 0 10px rgba(186, 106, 54, 0.45);
 }
 
-/* Workspace Body (Adapts automatically to the new topbar height) */
+.btn-save-story {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-amber);
+  color: var(--color-blush);
+  border: 1px solid rgba(230, 200, 183, 0.25);
+  border-radius: 9px;
+  padding: 6px 14px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-save-story:hover {
+  background-color: var(--color-cognac);
+  color: var(--color-espresso);
+}
+
+.btn-save-story svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Workspace Body */
 .workspace-body {
   display: flex;
   flex-grow: 1;
@@ -235,7 +268,7 @@ body.is-resizing {
   overflow-y: auto;
 }
 
-/* Chapters Panel Footer (Hide Button at the bottom) */
+/* Chapters Panel Footer */
 .chapters-sidebar-footer {
   padding-top: 12px;
   margin-top: 8px;
@@ -359,63 +392,4 @@ body.is-resizing {
 .btn-show-chapters-circle svg {
   width: 18px;
   height: 18px;
-}
-
-.toolbar-btn svg,
-.btn-add-chapter svg,
-.btn-hide-chapters svg,
-.chapter-icon,
-.btn-chapter-options svg {
-  width: 16px;
-  height: 16px;
-}
-
-.btn-show-chapters-circle svg {
-  width: 18px;
-  height: 18px;
-}.toolbar-btn svg,
-.btn-add-chapter svg,
-.btn-hide-chapters svg,
-.chapter-icon,
-.btn-chapter-options svg {
-  width: 16px;
-  height: 16px;
-}
-
-.btn-show-chapters-circle svg {
-  width: 18px;
-  height: 18px;
-}
-
-.toolbar-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.btn-save-story {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background-color: var(--color-amber);
-  color: var(--color-blush);
-  border: 1px solid rgba(230, 200, 183, 0.25);
-  border-radius: 9px;
-  padding: 6px 14px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.84rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-save-story:hover {
-  background-color: var(--color-cognac);
-  color: var(--color-espresso);
-}
-
-.btn-save-story svg {
-  width: 15px;
-  height: 15px;
 }

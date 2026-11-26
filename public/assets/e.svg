@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 48" width="210" height="42" fill="none">
+  <defs>
+    <linearGradient id="nm-brand-grad" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#f2dfd3"/>
+      <stop offset="100%" stop-color="#b8733e"/>
+    </linearGradient>
+  </defs>
+  <!-- Ícone -->
+  <rect x="4" y="6" width="36" height="36" rx="10" fill="#231110" stroke="url(#nm-brand-grad)" stroke-width="1.8"/>
+  <path d="M22 13L30 26L26 35H18L14 26L22 13Z" stroke="url(#nm-brand-grad)" stroke-width="1.8" stroke-linejoin="round"/>
+  <line x1="22" y1="13" x2="22" y2="25" stroke="url(#nm-brand-grad)" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="22" cy="27" r="1.8" fill="#e6c8b7"/>
+
+  <!-- Texto -->
+  <text x="50" y="30" fill="#f5e6dc" font-family="Poppins, Georgia, serif" font-size="21" font-weight="700" letter-spacing="-0.02em">
+    Novel<tspan fill="#c88d55">Maker</tspan>
+  </text>
+</svg>

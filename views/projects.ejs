@@ -1,72 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('partials/head', { pageTitle: 'Projects', pageCss: 'projects' }) %>
+<%- include('partials/head', { pageTitle: 'Projects' , pageCss: 'projects' }) %>
 
-<body>
+    <body>
+        <div class="app-layout">
+            <%- include('partials/navbar') %>
 
-    <div class="app-layout">
-        <%- include('partials/navbar') %>
+                <main class="page-main">
+                    <div class="page-container">
+                        <header class="projects-header">
+                            <div>
+                                <h1 class="page-title">Projects</h1>
+                                <p class="page-subtitle">Manage your manuscripts, covers, and project details.</p>
+                            </div>
+                            <a href="/writer" class="btn-new-story">+ New Project</a>
+                        </header>
 
-        <main class="projects-main">
-            <div class="projects-container">
-                <header class="projects-header">
-                    <div>
-                        <h1 class="projects-title">Projects</h1>
-                        <p class="projects-subtitle">Manage your manuscripts, covers, and project details.</p>
+                        <% if (stories.length===0) { %>
+                            <div class="empty-stories-box">
+                                <p>You don't have any projects yet.</p>
+                                <a href="/writer" class="btn-new-story">Start writing now</a>
+                            </div>
+                            <% } else { %>
+                                <div class="projects-table-wrapper">
+                                    <table class="projects-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Cover</th>
+                                                <th>Title</th>
+                                                <th class="col-chapters">Chapters</th>
+                                                <th>Created At</th>
+                                                <th>Last Modified</th>
+                                                <th class="col-actions-header">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% stories.forEach(story=> { %>
+                                                <% const createdDate=new
+                                                    Date(story.createdAt).toLocaleDateString('en-US', { month: 'short' ,
+                                                    day: 'numeric' , year: 'numeric' }); const updatedDate=new
+                                                    Date(story.updatedAt).toLocaleString('en-US', { month: 'short' ,
+                                                    day: 'numeric' , year: 'numeric' , hour: '2-digit' ,
+                                                    minute: '2-digit' }); %>
+                                                    <tr>
+                                                        <td>
+                                                            <a href="/writer/<%= story._id %>" class="table-cover-link"
+                                                                title="Open in Writer">
+                                                                <% if (story.coverImage) { %>
+                                                                    <img src="<%= story.coverImage %>"
+                                                                        alt="<%= story.title %>"
+                                                                        class="table-cover-img">
+                                                                    <% } else { %>
+                                                                        <div
+                                                                            class="table-cover-mini <%= story.coverTheme %>">
+                                                                        </div>
+                                                                        <% } %>
+                                                            </a>
+                                                        </td>
+
+                                                        <td>
+                                                            <a href="/writer/<%= story._id %>"
+                                                                class="table-story-title">
+                                                                <%= story.title %>
+                                                            </a>
+                                                        </td>
+
+                                                        <td class="table-meta-text col-chapters">
+                                                            <%= story.chapters.length %>
+                                                        </td>
+
+                                                        <td class="table-meta-text">
+                                                            <%= createdDate %>
+                                                        </td>
+
+                                                        <td class="table-meta-text">
+                                                            <%= updatedDate %>
+                                                        </td>
+
+                                                        <td class="col-actions-cell">
+                                                            <div class="table-actions-stack">
+                                                                <button type="button"
+                                                                    class="btn-table-action btn-edit-details"
+                                                                    data-story-id="<%= story._id %>"
+                                                                    data-story-title="<%= story.title %>"
+                                                                    data-story-synopsis="<%= story.synopsis || '' %>">
+                                                                    <i data-lucide="file-text"></i>
+                                                                    <span>Edit Details</span>
+                                                                </button>
+
+                                                                <form action="/projects/<%= story._id %>/cover"
+                                                                    method="POST" enctype="multipart/form-data"
+                                                                    class="cover-upload-form">
+                                                                    <input type="file" name="cover" accept="image/*"
+                                                                        class="hidden cover-file-input">
+                                                                    <button type="button"
+                                                                        class="btn-table-action btn-change-cover">
+                                                                        <i data-lucide="image"></i>
+                                                                        <span>Change Cover</span>
+                                                                    </button>
+                                                                </form>
+
+                                                                <button type="button"
+                                                                    class="btn-table-action btn-delete-project"
+                                                                    data-story-id="<%= story._id %>"
+                                                                    data-story-title="<%= story.title %>">
+                                                                    <i data-lucide="trash-2"></i>
+                                                                    <span>Delete</span>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <% } %>
                     </div>
-                    <a href="/writer" class="btn-new-project">+ New Project</a>
-                </header>
+                </main>
+        </div>
 
-                <% if (stories.length === 0) { %>
-                    <div class="empty-projects-state">
-                        <p>No projects found. Start writing a story to see it listed here.</p>
+        <!-- Modal de Editar Detalhes / Sinopse -->
+        <div id="details-project-modal" class="project-modal-backdrop hidden">
+            <div class="project-modal-card" role="dialog" aria-modal="true" aria-labelledby="details-modal-title">
+                <div class="project-modal-header">
+                    <h2 id="details-modal-title">Edit Novel Details</h2>
+                    <button type="button" id="close-details-modal" class="btn-close-modal" aria-label="Close">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+
+                <form id="details-project-form" method="POST" class="project-modal-form">
+                    <div class="modal-field">
+                        <label for="details-synopsis-input">Synopsis (<span id="details-story-label"></span>)</label>
+                        <textarea id="details-synopsis-input" name="synopsis" rows="6" maxlength="1200"
+                            placeholder="Write a compelling synopsis for your novel showcase page..."></textarea>
                     </div>
-                <% } else { %>
-                    <div class="projects-table-wrapper">
-                        <table class="projects-table">
-                            <thead>
-                                <tr>
-                                    <th>Cover</th>
-                                    <th>Title</th>
-                                    <th>Created At</th>
-                                    <th class="th-actions">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% stories.forEach(story => { %>
-                                    <tr>
-                                        <td class="td-cover">
-                                            <div class="mini-cover <%= story.coverTheme %>"></div>
-                                        </td>
-                                        <td class="td-title">
-                                            <a href="/writer/<%= story._id %>" class="project-link"><%= story.title %></a>
-                                            <span class="project-chapters-badge"><%= story.chapters.length %> chapter(s)</span>
-                                        </td>
-                                        <td class="td-date">
-                                            <%= new Date(story.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
-                                        </td>
-                                        <td class="td-actions">
-                                            <button type="button" class="btn-table-action" title="Rename Project">
-                                                <i data-lucide="pencil"></i>
-                                                <span>Rename</span>
-                                            </button>
-                                            <button type="button" class="btn-table-action" title="Change Cover Image">
-                                                <i data-lucide="image"></i>
-                                                <span>Change Cover</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
-                        </table>
+
+                    <div class="project-modal-actions">
+                        <button type="button" id="cancel-details-modal" class="btn-modal-cancel">Cancel</button>
+                        <button type="submit" class="btn-modal-save">Save Details</button>
                     </div>
-                <% } %>
+                </form>
             </div>
-        </main>
-    </div>
+        </div>
 
-    <script src="/js/script.js"></script>
-</body>
+        <!-- Modal de Confirmação de Exclusão -->
+        <div id="delete-project-modal" class="project-modal-backdrop hidden">
+            <div class="project-modal-card" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+                <div class="project-modal-header">
+                    <h2 id="delete-modal-title">Delete Project</h2>
+                    <button type="button" id="close-delete-modal" class="btn-close-modal" aria-label="Close">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+
+                <form id="delete-project-form" method="POST" class="project-modal-form">
+                    <p class="delete-warning-text">
+                        Are you sure you want to permanently delete <strong id="delete-story-name"></strong>? All
+                        chapters and content will be lost and cannot be recovered.
+                    </p>
+
+                    <div class="modal-field">
+                        <label for="delete-confirm-input">Type the novel title to confirm</label>
+                        <input type="text" id="delete-confirm-input" name="confirmTitle" autocomplete="off" required>
+                    </div>
+
+                    <div class="project-modal-actions">
+                        <button type="button" id="cancel-delete-modal" class="btn-modal-cancel">Cancel</button>
+                        <button type="submit" id="confirm-delete-submit" class="btn-modal-danger" disabled>
+                            Delete Forever
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="/js/script.js"></script>
+        <script src="/js/projects.js"></script>
+    </body>
 
 </html>

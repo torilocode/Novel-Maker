@@ -1,155 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('partials/head', { pageTitle: `${story.title} - NovelMaker`, pageCss: 'profile' }) %>
+<%- include('partials/head', { pageTitle: `${story.title} - NovelMaker`, pageCss: 'reader' }) %>
 
-<style>
-    .profile-main {
-        flex: 1;
-        width: 100%;
-    }
+    <body>
+        <div class="app-layout">
+            <%- include('partials/navbar') %>
 
-    .reader-container {
-        width: 720px;
-        min-width: 720px;
-        max-width: 720px;
-        box-sizing: border-box;
-        margin: 0 auto;
-        padding: 3rem 1.5rem 6rem;
-    }
+                <main class="reader-main">
+                    <div class="reader-container" id="reader-root"
+                        data-chapters="<%= JSON.stringify(story.chapters || []) %>">
 
-    .reader-header {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        padding-bottom: 1.5rem;
-        margin-bottom: 2rem;
-    }
+                        <div class="reader-header">
+                            <h1 class="reader-title">
+                                <%= story.title %>
+                            </h1>
+                            <div class="reader-meta">
+                                <span>
+                                    By <a href="/profile/<%= story.author.username %>">
+                                        <%= story.author.nickname || story.author.username %>
+                                    </a> (@<%= story.author.username %>)
+                                </span>
 
-    .reader-title {
-        font-size: 2.25rem;
-        margin: 0 0 0.5rem;
-        word-wrap: break-word;
-    }
+                                <% if (isAuthor) { %>
+                                    <a href="/writer/<%= story._id %>" class="reader-btn">
+                                        <i data-lucide="pen-line"></i>
+                                        Edit Story
+                                    </a>
+                                    <% } %>
+                            </div>
+                        </div>
 
-    .reader-meta {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 1rem;
-        opacity: 0.85;
-        font-size: 0.95rem;
-    }
-
-    .reader-meta a {
-        color: inherit;
-        text-decoration: underline;
-    }
-
-    .chapter-selector {
-        width: 100%;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        margin-bottom: 2.5rem;
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.04);
-    }
-
-    .chapter-selector select {
-        background: #18181b;
-        color: inherit;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        padding: 0.4rem 0.75rem;
-        border-radius: 6px;
-        font-size: 0.95rem;
-    }
-
-    .chapter-heading {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-        word-wrap: break-word;
-    }
-
-    .chapter-body {
-        width: 100%;
-        font-size: 1.125rem;
-        line-height: 1.85;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-    }
-
-    .chapter-body div,
-    .chapter-body p {
-        margin-bottom: 0.75rem;
-    }
-
-    .chapter-nav-buttons {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        margin-top: 3.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .reader-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        background: transparent;
-        color: inherit;
-        cursor: pointer;
-        text-decoration: none;
-        font-size: 0.9rem;
-    }
-
-    .reader-btn:disabled {
-        opacity: 0.35;
-        cursor: not-allowed;
-    }
-</style>
-
-<body>
-    <div class="app-layout">
-        <%- include('partials/navbar') %>
-
-        <main class="profile-main">
-            <div class="reader-container" id="reader-root"
-                data-chapters="<%= JSON.stringify(story.chapters || []) %>">
-
-                <div class="reader-header">
-                    <h1 class="reader-title">
-                        <%= story.title %>
-                    </h1>
-                    <div class="reader-meta">
-                        <span>
-                            By <a href="/profile/<%= story.author.username %>">
-                                <%= story.author.nickname || story.author.username %>
-                            </a> (@<%= story.author.username %>)
-                        </span>
-
-                        <% if (isAuthor) { %>
-                            <a href="/writer/<%= story._id %>" class="reader-btn">
-                                <i data-lucide="pen-line" style="width:16px;height:16px;"></i>
-                                Edit Story
-                            </a>
-                        <% } %>
-                    </div>
-                </div>
-
-                <% if (story.chapters && story.chapters.length > 0) { %>
-                    <div class="chapter-selector">
-                        <label for="chapter-select">Chapter:</label>
-                        <select id="chapter-select">
-                            <% story.chapters.forEach((ch, index) => { %>
-                                <option value="<%= index %>">
-                                    <%= ch.title || ('Chapter ' + (index + 1)) %>
+                        <% if (story.chapters && story.chapters.length> 0) { %>
+                            <div class="chapter-selector">
+                                <label for="chapter-select">Chapter:</label>
+                                <select id="chapter-select">
+                                    <% story.chapters.forEach((ch, index)=> { %>
+                                        <option value="<%= index %>">
+                                            <%= ch.title || ('Chapter ' + (index + 1)) %>
                                 </option>
                             <% }) %>
                         </select>
@@ -162,64 +50,21 @@
 
                     <div class="chapter-nav-buttons">
                         <button type="button" class="reader-btn" id="prev-chapter-btn">
-                            <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Previous
+                            <i data-lucide="arrow-left"></i> Previous
                         </button>
                         <button type="button" class="reader-btn" id="next-chapter-btn">
-                            Next <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
+                            Next <i data-lucide="arrow-right"></i>
                         </button>
                     </div>
                 <% } else { %>
-                    <p style="opacity: 0.6;">This story doesn't have any chapters yet.</p>
-                <% } %>
-            </div>
-        </main>
-    </div>
+                    <p class="reader-empty-state">This story doesn' t have any chapters yet.</p>
+                                                <% } %>
+                            </div>
+                </main>
+        </div>
 
-    <script src="/js/script.js"></script>
-    <script>
-        const root = document.getElementById('reader-root');
-        const chapters = JSON.parse(root.dataset.chapters || '[]');
-        let currentIndex = 0;
-
-        const selectEl = document.getElementById('chapter-select');
-        const titleEl = document.getElementById('chapter-title');
-        const contentEl = document.getElementById('chapter-content');
-        const prevBtn = document.getElementById('prev-chapter-btn');
-        const nextBtn = document.getElementById('next-chapter-btn');
-
-        function sanitizeChapterHtml(html) {
-            const temp = document.createElement('div');
-            temp.innerHTML = html || '';
-            temp.querySelectorAll('script, iframe, object, embed, style, link').forEach(el => el.remove());
-            return temp.innerHTML;
-        }
-
-        function renderChapter(index) {
-            if (!chapters.length) return;
-            currentIndex = index;
-            const ch = chapters[currentIndex];
-
-            titleEl.textContent = ch.title || `Chapter ${currentIndex + 1}`;
-            contentEl.innerHTML = sanitizeChapterHtml(ch.content);
-            selectEl.value = currentIndex;
-
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex === chapters.length - 1;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        if (chapters.length > 0) {
-            selectEl.addEventListener('change', (e) => renderChapter(Number(e.target.value)));
-            prevBtn.addEventListener('click', () => {
-                if (currentIndex > 0) renderChapter(currentIndex - 1);
-            });
-            nextBtn.addEventListener('click', () => {
-                if (currentIndex < chapters.length - 1) renderChapter(currentIndex + 1);
-            });
-
-            renderChapter(0);
-        }
-    </script>
-</body>
+        <script src="/js/script.js"></script>
+        <script src="/js/reader.js"></script>
+    </body>
 
 </html>

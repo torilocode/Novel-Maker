@@ -1,0 +1,118 @@
+.not-found-main {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.not-found-card {
+  width: 100%;
+  max-width: 480px;
+  background-color: #1d0e0d;
+  border: 1px solid rgba(230, 200, 183, 0.16);
+  border-radius: 18px;
+  padding: 44px 36px;
+  text-align: center;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.not-found-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background-color: rgba(28, 57, 52, 0.55);
+  border: 1px solid rgba(195, 149, 91, 0.35);
+  color: var(--color-cognac);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.not-found-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.not-found-code {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-cognac);
+  margin-bottom: 8px;
+}
+
+.not-found-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--color-blush);
+  margin-bottom: 12px;
+}
+
+.not-found-message {
+  font-size: 0.94rem;
+  line-height: 1.65;
+  color: var(--color-champagne);
+  opacity: 0.85;
+  margin-bottom: 28px;
+}
+
+.not-found-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.btn-not-found-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-amber);
+  color: var(--color-blush);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-not-found-primary:hover {
+  background-color: var(--color-cognac);
+  color: var(--color-espresso);
+}
+
+.btn-not-found-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(230, 200, 183, 0.2);
+  color: var(--color-champagne);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-not-found-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--color-champagne);
+  color: var(--color-blush);
+}
+
+.btn-not-found-primary svg,
+.btn-not-found-secondary svg {
+  width: 16px;
+  height: 16px;
+}

@@ -222,6 +222,11 @@
   border-color: var(--color-amber);
 }
 
+.control-arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
 .showcase-dots {
   display: flex;
   align-items: center;
@@ -257,12 +262,4 @@
   .placeholder-frame {
     height: 220px;
   }
-}
-
-.control-arrow svg {
-  width: 18px;
-  height: 18px;
-}.control-arrow svg {
-  width: 18px;
-  height: 18px;
 }

@@ -21,4 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    // Garante que apenas o formulário da aba ativa fique visível ao abrir
+    const activeTab = document.querySelector(".auth-tab.active");
+    if (activeTab) activeTab.click();
 });

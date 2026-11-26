@@ -4,16 +4,14 @@ const userSchema = new mongoose.Schema({
     nickname: {
         type: String,
         required: true,
-        trim: true,
-        maxlength: 40
+        trim: true
     },
     username: {
         type: String,
         required: true,
         unique: true,
         lowercase: true,
-        trim: true,
-        maxlength: 25
+        trim: true
     },
     email: {
         type: String,
@@ -24,13 +22,29 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: false
+    },
+    googleId: {
+        type: String,
+        required: false
     },
     bio: {
         type: String,
-        default: 'Crafting new worlds and late-night drafts on NovelMaker.',
-        maxlength: 200
-    }
+        default: 'Writer on NovelMaker.',
+        maxlength: 220
+    },
+    avatar: {
+        type: String,
+        default: null
+    },
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

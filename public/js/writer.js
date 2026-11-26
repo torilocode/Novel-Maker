@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const workspaceEl = document.getElementById("editor-workspace");
     const rawStoryData = workspaceEl ? workspaceEl.dataset.story : "";
     const initialStory = rawStoryData ? JSON.parse(rawStoryData) : null;
-    
+
     let currentStoryId = initialStory ? initialStory.id : null;
     let chapters = (initialStory && initialStory.chapters.length > 0)
         ? initialStory.chapters.map((ch, idx) => ({
@@ -302,6 +302,47 @@ document.addEventListener("DOMContentLoaded", () => {
             isResizing = false;
             resizer.classList.remove("resizing");
             document.body.classList.remove("is-resizing");
+        });
+    }
+
+    const editorEl = document.getElementById("editor") || document.querySelector("[contenteditable='true']");
+
+    if (editorEl) {
+        editorEl.addEventListener("paste", (e) => {
+            e.preventDefault();
+
+            // Pega apenas o texto puro sem HTML, cores, links ou fontes externas
+            const plainText = (e.clipboardData || window.clipboardData).getData("text/plain");
+            if (!plainText) return;
+
+            // Normaliza quebras de linha e insere mantendo a estrutura de parágrafos
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+
+            const range = selection.getRangeAt(0);
+            range.deleteContents();
+
+            const lines = plainText.replace(/\r\n/g, "\n").split("\n");
+            const fragment = document.createDocumentFragment();
+
+            lines.forEach((line, index) => {
+                if (index > 0) {
+                    fragment.appendChild(document.createElement("br"));
+                }
+                if (line.length > 0) {
+                    fragment.appendChild(document.createTextNode(line));
+                }
+            });
+
+            range.insertNode(fragment);
+
+            // Move o cursor para o final do texto colado
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Dispara o evento 'input' para atualizar contagem de palavras / autosave
+            editorEl.dispatchEvent(new Event("input", { bubbles: true }));
         });
     }
 });

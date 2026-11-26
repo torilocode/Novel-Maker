@@ -3,67 +3,189 @@
 
 <%- include('partials/head', { pageTitle: `${profileUser.nickname} (@${profileUser.username})`, pageCss: 'profile' }) %>
 
-<body>
+    <body>
+        <div class="app-layout">
+            <%- include('partials/navbar') %>
 
-    <div class="app-layout">
-        <%- include('partials/navbar') %>
+                <main class="page-main">
+                    <div class="page-container">
+                        <section class="profile-header">
+                            <div class="profile-header-left">
+                                <% if (isOwnProfile) { %>
+                                    <form action="/profile/avatar" method="POST" enctype="multipart/form-data"
+                                        id="avatar-form" class="avatar-upload-form">
+                                        <input type="file" name="avatar" id="avatar-input" accept="image/*"
+                                            class="hidden">
+                                        <button type="button" id="avatar-trigger" class="avatar-trigger"
+                                            title="Change profile picture">
+                                            <% if (profileUser.avatar) { %>
+                                                <img src="<%= profileUser.avatar %>" alt="<%= profileUser.nickname %>"
+                                                    class="avatar-image">
+                                                <% } else { %>
+                                                    <div class="avatar-placeholder">
+                                                        <i data-lucide="user"></i>
+                                                    </div>
+                                                    <% } %>
+                                                        <span class="avatar-edit-badge">
+                                                            <i data-lucide="camera"></i>
+                                                        </span>
+                                        </button>
+                                    </form>
+                                    <% } else { %>
+                                        <% if (profileUser.avatar) { %>
+                                            <img src="<%= profileUser.avatar %>" alt="<%= profileUser.nickname %>"
+                                                class="avatar-image">
+                                            <% } else { %>
+                                                <div class="avatar-placeholder" title="User Avatar">
+                                                    <i data-lucide="user"></i>
+                                                </div>
+                                                <% } %>
+                                                    <% } %>
 
-        <main class="profile-main">
-            <div class="profile-container">
-                <!-- User Info Section -->
-                <section class="profile-header">
-                    <div class="avatar-placeholder" title="User Avatar Placeholder">
-                        <i data-lucide="user"></i>
-                    </div>
+                                                        <div class="profile-identity">
+                                                            <h1 class="profile-nickname">
+                                                                <%= profileUser.nickname %>
+                                                            </h1>
+                                                            <span class="profile-handle">@<%= profileUser.username %>
+                                                            </span>
+                                                            <p class="profile-bio">
+                                                                <%= profileUser.bio %>
+                                                            </p>
 
-                    <div class="profile-identity">
-                        <h1 class="profile-nickname"><%= profileUser.nickname %></h1>
-                        <span class="profile-handle">@<%= profileUser.username %></span>
-                        <p class="profile-bio"><%= profileUser.bio %></p>
-                    </div>
-                </section>
+                                                            <div class="profile-stats">
+                                                                <span>
+                                                                    <strong id="followers-count">
+                                                                        <%= profileUser.followers ?
+                                                                            profileUser.followers.length : 0 %>
+                                                                    </strong>
+                                                                    Followers
+                                                                </span>
+                                                                <span class="stats-dot">•</span>
+                                                                <span>
+                                                                    <strong>
+                                                                        <%= profileUser.following ?
+                                                                            profileUser.following.length : 0 %>
+                                                                    </strong>
+                                                                    Following
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                            </div>
 
-                <hr class="section-divider">
+                            <div class="profile-header-actions">
+                                <% if (isOwnProfile) { %>
+                                    <button type="button" id="open-settings-profile-btn" class="btn-profile-settings"
+                                        title="Edit Profile">
+                                        <i data-lucide="pen-line"></i>
+                                        <span>Edit Profile</span>
+                                    </button>
+                                    <% } else { %>
+                                        <button type="button" id="follow-btn"
+                                            class="btn-follow <%= isFollowing ? 'is-following' : '' %>"
+                                            data-user-id="<%= profileUser._id %>">
+                                            <i data-lucide="<%= isFollowing ? 'user-check' : 'user-plus' %>"></i>
+                                            <span id="follow-btn-text">
+                                                <%= isFollowing ? 'Following' : 'Follow' %>
+                                            </span>
+                                        </button>
+                                        <% } %>
+                            </div>
+                        </section>
 
-                <!-- Stories Section (4-column Grid: Cover + Title only) -->
-                <section class="stories-section">
-                    <div class="stories-header">
-                        <h2 class="stories-title">Stories</h2>
-                        <% if (isOwnProfile) { %>
-                            <a href="/writer" class="btn-new-story">+ New Novel</a>
-                        <% } %>
-                    </div>
+                        <hr class="section-divider">
 
-                    <% if (stories.length === 0) { %>
-                        <div class="empty-stories-box">
-                            <% if (isOwnProfile) { %>
-                                <p>You haven't created any stories yet.</p>
-                                <a href="/writer" class="btn-new-story">Create your first story</a>
-                            <% } else { %>
-                                <p>@<%= profileUser.username %> hasn't published any stories yet.</p>
-                            <% } %>
-                        </div>
-                    <% } else { %>
-                        <div class="books-grid-4">
-                            <% stories.forEach(story => { %>
-                                <a href="<%= isOwnProfile ? `/writer/${story._id}` : `/read/${story._id}` %>" class="book-card-clean">
-                                    <div class="book-cover <%= story.coverTheme %>">
-                                        <div class="book-spine"></div>
-                                        <div class="book-cover-content">
-                                            <h3 class="book-cover-title"><%= story.title %></h3>
-                                        </div>
+                        <section class="stories-section">
+                            <div class="stories-header">
+                                <h2 class="stories-title">Stories</h2>
+                                <% if (isOwnProfile) { %>
+                                    <a href="/writer" class="btn-new-story">+ New Novel</a>
+                                    <% } %>
+                            </div>
+
+                            <% if (stories.length===0) { %>
+                                <div class="empty-stories-box">
+                                    <% if (isOwnProfile) { %>
+                                        <p>You haven't created any stories yet.</p>
+                                        <a href="/writer" class="btn-new-story">Create your first story</a>
+                                        <% } else { %>
+                                            <p>@<%= profileUser.username %> hasn't published any stories yet.</p>
+                                            <% } %>
+                                </div>
+                                <% } else { %>
+                                    <div class="books-grid-4">
+                                        <% stories.forEach(story=> { %>
+                                            <a href="/novel/<%= story._id %>" class="book-card-clean">
+                                                <div
+                                                    class="book-cover <%= story.coverImage ? 'has-custom-cover' : story.coverTheme %>">
+                                                    <div class="book-spine"></div>
+                                                    <% if (story.coverImage) { %>
+                                                        <img src="<%= story.coverImage %>" alt="<%= story.title %>"
+                                                            class="book-cover-img">
+                                                        <% } else { %>
+                                                            <div class="book-cover-content">
+                                                                <h3 class="book-cover-title">
+                                                                    <%= story.title %>
+                                                                </h3>
+                                                            </div>
+                                                            <% } %>
+                                                </div>
+                                                <span class="book-clean-title">
+                                                    <%= story.title %>
+                                                </span>
+                                            </a>
+                                            <% }) %>
                                     </div>
-                                    <span class="book-clean-title"><%= story.title %></span>
-                                </a>
-                            <% }) %>
-                        </div>
-                    <% } %>
-                </section>
-            </div>
-        </main>
-    </div>
+                                    <% } %>
+                        </section>
 
-    <script src="/js/script.js"></script>
-</body>
+                        <% if (isOwnProfile) { %>
+                            <hr class="section-divider">
+
+                            <div class="profile-footer-actions">
+                                <a href="/logout" class="btn-logout-profile">
+                                    <i data-lucide="log-out"></i>
+                                    <span>Log Out</span>
+                                </a>
+                            </div>
+                            <% } %>
+                    </div>
+                </main>
+        </div>
+
+        <% if (isOwnProfile) { %>
+            <div id="edit-profile-modal" class="profile-modal-backdrop hidden">
+                <div class="profile-modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-profile-title">
+                    <div class="profile-modal-header">
+                        <h2 id="modal-profile-title">Edit Profile</h2>
+                        <button type="button" id="close-edit-profile-btn" class="btn-close-modal" aria-label="Close">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <form action="/profile/edit" method="POST" class="profile-modal-form">
+                        <div class="modal-field">
+                            <label for="input-nickname">Display Name (Nickname)</label>
+                            <input type="text" id="input-nickname" name="nickname" maxlength="32"
+                                value="<%= profileUser.nickname %>" required>
+                        </div>
+
+                        <div class="modal-field">
+                            <label for="input-bio">Bio</label>
+                            <textarea id="input-bio" name="bio" rows="3" maxlength="220"
+                                placeholder="Tell readers a bit about yourself..."><%= profileUser.bio %></textarea>
+                        </div>
+
+                        <div class="profile-modal-actions">
+                            <button type="button" id="cancel-edit-profile-btn" class="btn-modal-cancel">Cancel</button>
+                            <button type="submit" class="btn-modal-save">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <% } %>
+
+                <script src="/js/script.js"></script>
+                <script src="/js/profile.js"></script>
+    </body>
 
 </html>
